@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Coda_Priorità.h"
+#include "attività.h"
 #define MAX_HEAP 50              //Definizione della dimensione massima dell'heap
 
 //Definizione della struttura per la coda a priorità
@@ -29,9 +30,8 @@ int vuota_PC(PCoda c){
 Attività ottieni_max(PCoda c){
     if(!c || c->num_elementi == 0){
         printf("Errore! La coda è vuota.\n ");
-        return -1;
     }
-    return c->vet[1];                              // Restituisce l'attività con priorità più alta, quindi ritorna l'elemento al primo indice (massimo in un max-heap)
+    return c->vet[1];                             // Restituisce l'attività con priorità più alta, quindi ritorna l'elemento al primo indice (massimo in un max-heap)
 }
 
 // Funzione per eliminare l'elemento massimo dalla coda di priorità
@@ -74,7 +74,7 @@ static void sali(PCoda c){
     while(pos < 1)
     {
      // Se l'elemento inserito ha priorità maggiore del suo genitore, scambia i loro valori
-        if(c->vet[pos].priorità > c->vet[i].priorità){
+        if(c->vet[pos].importanza > c->vet[i].importanza){
         temp = c->vet[i];
         c->vet[i] = c->vet[pos];
         c->vet[pos] = temp;
@@ -95,14 +95,14 @@ static void scendi(PCoda c){
        // Determina la posizione del figlio con priorità più alta
 
        if(2*i + 1 <= n)                             //Se il nodo corrente ha due figli
-          pos = (c->vet[2*i].priorità > c->vet[2*i + 1].priorità) ? 2*i : 2*i + 1;
+          pos = (c->vet[2*i].importanza > c->vet[2*i + 1].importanza) ? 2*i : 2*i + 1;
        else if (2*i <= n)                           //Se il nodo corrente ha un solo figlio
           pos = 2*i;
           else
                     break;                          //Se non ha figli interrompe il ciclo 
 
       // Scambia i valori se il nodo figlio ha una priorità più alta rispetto al nodo genitore       
-        if (c->vet[pos].priorità > c->vet[i].priorità)
+        if (c->vet[pos].importanza > c->vet[i].importanza)
         {
              temp = c->vet[i];
              c->vet[i] = c->vet[pos];

@@ -4,13 +4,15 @@ Obiettivo del programma: Il programma deve aiutare uno studente nel gestire e mo
 deve permettere di inserire attività di studio, assegnare delle priorità, visualizzare il progresso di una determinata attività e infine deve 
 generare anche dei report settimanali.
 
-Funzioni (i nomi delle funzioni non sono  quelli definitivi e non è detto che ci saranno quest'ultime):
+Funzioni (i nomi delle funzioni non sono quelli definitivi e non è detto che ci saranno quest'ultime):
 
-void inizializzaCoda();
-void aggiungiAttività();     //Descrizione, nome del corso, ore stimate per il completamento, Priorità(1 = bassa, 2 = media, 3 = alta)
-void mostraAttività();       
-void aggiornaAttività();     
-void reportSettimanale();    //Completate, In corso, In ritardo
+void aggiungi_attività(PCoda c);
+void modifica_attività(PCoda c);
+void elimina_attività(PCoda c);
+void visualizza_progresso(PCoda c);
+void genera_report_settimanale(PCoda c);
+int verifica_ritardo(const char* data_di_scadenza);
 
-Ancora da valutare: item della struttura, come gestire la libreria time.h, eventauli funzioni aggiuntive
+
+Ancora da valutare: eventauli funzioni aggiuntive, 
 
