@@ -15,7 +15,7 @@ PCoda nuova_PC(void){
     c = malloc(sizeof(struct coda_P));            //Allocazione della memoria per la coda 
     if (c == NULL)
     return NULL;
-    c->num_elementi = 0;                           //Inizializzazione del numero di elementi a zero
+    c->num_elementi = 0;                          //Inizializzazione del numero di elementi a zero
     return c;                                     //Ritorno del puntatore alla coda 
 }
 
