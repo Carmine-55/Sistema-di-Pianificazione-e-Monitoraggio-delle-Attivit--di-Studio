@@ -6,14 +6,13 @@
 
 //Definizione della struttura per la coda a priorità
 struct coda_P{
-    Attività vet[MAX_HEAP];      //Array di attività memorizzati nell'heap
+    Attività vet[MAX_HEAP];      //Array di attività memorizzate nell'heap
     int num_elementi;            //Numero attuale di elementi nell'heap
 };
 
 //Dichiarazione delle funzioni statiche utilizzate per la manipolazione dell'heap
 static void sali(PCoda c);
 static void scendi(PCoda c); 
-
 
 //Funzione per creare una nuova di coda priorità
 PCoda nuova_PC(void){
