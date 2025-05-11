@@ -38,20 +38,26 @@ void aggiungi_attività(PCoda c){
     Attività nuovaAttività;
 
     printf("Inserisci la descrizione dell'attività: ");
-    scanf(" %s", nuovaAttività.descrizione);
+    fgets(nuovaAttività.descrizione, sizeof(nuovaAttività.descrizione), stdin);
+    nuovaAttività.descrizione[strcspn(nuovaAttività.descrizione, "\n")] = 0;
 
     printf("Inserisci nome del corso: ");
-    scanf(" %s", nuovaAttività.corso);
+    fgets(nuovaAttività.corso, sizeof(nuovaAttività.corso), stdin);
+    nuovaAttività.corso[strcspn(nuovaAttività.corso, "\n")] = 0;
+
 
     printf("Inserisci la data di scadenza dell'attività (gg/mm/aaaa): ");
-    scanf(" %s", nuovaAttività.data_di_scadenza);
+    fgets(nuovaAttività.data_di_scadenza, sizeof(nuovaAttività.data_di_scadenza), stdin);
+    nuovaAttività.data_di_scadenza[strcspn(nuovaAttività.data_di_scadenza, "\n")] = 0;
 
     printf("Inserisci il tempo stimato di completamento in ore: ");
     scanf(" %d", nuovaAttività.tempo_stimato);
+    getchar();
 
     int prio;
     printf("Inserisci il grado di priorità (1 = BASSA, 2 = MEDIA, 3 = ALTA): ");
     scanf("%d", &prio);
+    getchar();
     nuovaAttività.importanza = (Priorità) prio;
 
     nuovaAttività.stato = verifica_ritardo(nuovaAttività.data_di_scadenza) ? IN_RITARDO : IN_CORSO;
@@ -68,20 +74,24 @@ void modifica_attività(PCoda c){
     }
     char descrizione[150];
      printf("Inserisci la descrizione dell'attività che vuoi modificare: ");
-     scanf(" %s", descrizione);
+     fgets(descrizione, sizeof(descrizione), stdin);
+     descrizione[strcspn(descrizione, "\n")] = 0;
 
      for(int i = 1; i <= c->num_elementi; i++){
         if(strcmp(c->vet[i].descrizione, descrizione) == 0){
             printf("Nuova descrizione: ");
-            scanf(" %s", c->vet[i].descrizione);
+            fgets(c->vet[i].descrizione, sizeof(c->vet[i].descrizione), stdin);
+            c->vet[i].descrizione[strcspn(c->vet[i].descrizione, "\n")] = 0;
 
             printf("Nuovo corso: ");
-            scanf(" %s", c->vet[i].corso);
+            fgets(c->vet[i].corso, sizeof(c->vet[i].corso), stdin);
+            c->vet[i].corso[strcspn(c->vet[i].corso, "\n")] = 0;
 
             printf("Nuova priorità (BASSA = 1, MEDIA = 2, ALTA = 3): ");
 
             int nuovaPriorità;
             scanf("%d", &nuovaPriorità);
+            getchar();
             c->vet[i].importanza = (Priorità) nuovaPriorità;
             printf("Hai modificato l'attività con successo!\n");
             return;
@@ -98,8 +108,9 @@ void elimina_attività(PCoda c){
     }
      char descrizione[150];
      printf("Inserisci la descrizione dell'attività che vuoi eliminare: ");
-     scanf(" %s", descrizione);
-
+     fgets(descrizione, sizeof(descrizione), stdin);
+     descrizione[strcspn(descrizione, "\n")] = 0;
+    
       for(int i = 1; i <= c->num_elementi; i++){
         if(strcmp(c->vet[i].descrizione, descrizione) == 0){
             cancella_max(c);
@@ -171,10 +182,10 @@ int verifica_ritardo(const char* data_di_scadenza){
     if(anno < tm_corrente->tm_year + 2000 
 
     //Se l'anno della scadenza dell'attività è uguale all'anno attuale, ma il mese è inferiore rispetto a quello attuale, allora l'attività è in ritardo
-        || (anno == tm_corrente->tm_year + 2000 && mese < tm_corrente->tm_mon +1) 
+        || (anno == tm_corrente->tm_year + 2000 && mese < tm_corrente->tm_mon + 1) 
      
     //Se l'anno e il mese della scadenza dell'attività sono uguali a quelli attuali, ma il giorno è inferiore all'attuale, allora l'attività è in ritardo    
-        || (anno == tm_corrente->tm_year + 2000 && mese < tm_corrente-> tm_mon + 1 && giorno < tm_corrente->tm_mday)){
+        || (anno == tm_corrente->tm_year + 2000 && mese == tm_corrente-> tm_mon + 1 && giorno < tm_corrente->tm_mday)){
         return 1;         //Se l'attività è in ritardo ritorna 1
     } return 0;           //Se l'attività non è in ritardo  ritorna 0
 }

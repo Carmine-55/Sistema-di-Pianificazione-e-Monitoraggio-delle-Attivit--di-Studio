@@ -10,6 +10,11 @@ struct coda_P{
     int num_elementi;            //Numero attuale di elementi nell'heap
 };
 
+//Dichiarazione delle funzioni statiche utilizzate per la manipolazione dell'heap
+static void sali(PCoda c);
+static void scendi(PCoda c); 
+
+
 //Funzione per creare una nuova di coda priorità
 PCoda nuova_PC(void){
     PCoda c;
@@ -30,6 +35,10 @@ int vuota_PC(PCoda c){
 Attività ottieni_max(PCoda c){
     if(!c || c->num_elementi == 0){
         printf("Errore! La coda è vuota.\n ");
+
+        //Restituisce un'attività con dei valori base per evitare accessi errati
+        Attività nuova = {"Nessuna attività", "", "00/00/0000", 0, BASSA, COMPLETATA};
+        return nuova;
     }
     return c->vet[1];                             // Restituisce l'attività con priorità più alta, quindi ritorna l'elemento al primo indice (massimo in un max-heap)
 }
@@ -71,7 +80,7 @@ static void sali(PCoda c){
     int pos = c->num_elementi, i = pos/2;
     Attività temp;
 
-    while(pos < 1)
+    while(pos > 1)
     {
      // Se l'elemento inserito ha priorità maggiore del suo genitore, scambia i loro valori
         if(c->vet[pos].importanza > c->vet[i].importanza){
