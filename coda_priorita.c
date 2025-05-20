@@ -110,7 +110,7 @@ void mostra_progresso(PCoda c) {
 
     printf("\n****** PROGRESSO DELLE ATTIVITA' ****** \n");
     for (int i = 1; i <= c->num_elementi; i++) {
-        printf("%d. %s (%s) - Scadenza: %s - Tempo stimato: %d ore - Priorita': %d - Stato: %s\n",
+        printf("%d. %s (%s) - Scadenza: %s - Tempo stimato: %d ore - Priorita'(BASSA = 1, MEDIA = 2, ALTA = 3): %d - Stato: %s\n",
                i, c->vet[i].descrizione, c->vet[i].corso, c->vet[i].data_di_scadenza,
                c->vet[i].tempo_stimato, c->vet[i].importanza,
                (c->vet[i].stato == IN_RITARDO) ? "In Ritardo" : 
