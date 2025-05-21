@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "item.h"
 #include "coda_priorita.h"
+#include "funzioni_file.h"
+#define NOME_FILE "attivita'.txt"
 
 void pulisci_schermo(){
     #ifdef _WIN32
@@ -13,6 +15,7 @@ void pulisci_schermo(){
 
 int main() {
     PCoda c = nuova_PC();
+    caricamento_da_file(NOME_FILE, c);
     int scelta;
 
     do {
@@ -35,6 +38,7 @@ int main() {
                      Attivita nuova;
                     if (aggiungi_attivita(&nuova)){
                        inserisci(c, nuova);
+                       salvataggio_su_file(NOME_FILE, c);
                 }
                  else {
                        printf("\nL'ATTIVITA' NON E' STATA AGGIUNTA A CAUSA DI UN ERRORE IN INPUT!\n");
@@ -55,15 +59,18 @@ int main() {
                         printf("INDICE INSERITO NON VALIDO.\n");
                     } else {
                         modifica_attivita(&c->vet[indice]);
+                        salvataggio_su_file(NOME_FILE, c);
                     }
                 }
                 break;
             }
             case 3: 
                     elimina_attivita(c); 
+                    salvataggio_su_file(NOME_FILE, c);
                     break;
             case 4:
                     completa_un_attivita(c);
+                    salvataggio_su_file(NOME_FILE, c);
                     break;
             case 5: 
                     mostra_progresso(c);
