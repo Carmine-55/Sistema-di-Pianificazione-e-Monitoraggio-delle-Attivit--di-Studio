@@ -23,7 +23,7 @@ typedef struct {
 } Attivita;
 
 // Prototipi delle funzioni di gestione attività
-void aggiungi_attivita(Attivita *a);
+int aggiungi_attivita(Attivita *a);
 void modifica_attivita(Attivita *a);
 int verifica_ritardo(const char *data_di_scadenza);
 void mostra_attivita(const Attivita *a);

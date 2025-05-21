@@ -32,11 +32,16 @@ int main() {
 
         switch (scelta) {
             case 1: {
-                Attivita nuova;
-                aggiungi_attivita(&nuova);
-                inserisci(c, nuova);
+                     Attivita nuova;
+                    if (aggiungi_attivita(&nuova)){
+                       inserisci(c, nuova);
+                }
+                 else {
+                       printf("\nL'ATTIVITA' NON E' STATA AGGIUNTA A CAUSA DI UN ERRORE IN INPUT!\n");
+                 }
                 break;
             }
+            
             case 2: {
                 if (vuota_PC(c)) {
                     printf("NON E' PRESENTE NESSUNA ATTIVITA' DA MODIFICARE\n");

@@ -5,30 +5,60 @@
 #include "item.h"
 
 // Aggiunta di un'attività
-void aggiungi_attivita(Attivita *a) {
+int aggiungi_attivita(Attivita *a) {
     printf("*** INSERISCI DESCRIZIONE ***: ");
     fgets(a->descrizione, sizeof(a->descrizione), stdin);
     a->descrizione[strcspn(a->descrizione, "\n")] = 0;
+
+    if(strlen(a->descrizione) == 0){
+        printf("ERRORE! LA DESCRIZIONE NON PUO' ESSERE VUOTA...RIPROVA");
+        return 0;
+    }
 
     printf("*** INSERISCI IL NOME DEL CORSO ***: ");
     fgets(a->corso, sizeof(a->corso), stdin);
     a->corso[strcspn(a->corso, "\n")] = 0;
 
+    if(strlen(a->corso) == 0){
+        printf("ERRORE! IL NOME DEL CORSO NON PUO' ESSERE VUOTO...RIPROVA");
+        return 0;
+    }
+
+    int giorno, mese, anno;
     printf("*** INSERISCI LA DATA DI SCADENZA (GG/MM/AAAA) ***: ");
-    fgets(a->data_di_scadenza, sizeof(a->data_di_scadenza), stdin);
-    a->data_di_scadenza[strcspn(a->data_di_scadenza, "\n")] = 0;
+    scanf("%d/%d/%d", &giorno, &mese, &anno);
+    getchar();
+
+    if (giorno < 1 || giorno > 31 || mese < 1 || mese > 12 || anno < 1900) {
+        printf("ERRORE! LA DATA INSERITA NON E' VALIDA\n");
+        return 0;
+    }
+    sprintf(a->data_di_scadenza, "%02d/%02d/%04d", giorno, mese, anno);
 
     printf("*** INSERISCI IL TEMPO STIMATO (ORE) ***:");
     scanf("%d", &a->tempo_stimato);
     getchar();
 
+    if(a->tempo_stimato < 1 || a->tempo_stimato > 10000){
+        printf("ERRORE! HAI INSERITO UN VALORE NON AMMESSO...");
+        return 0;
+    }
+
     int priorita;
     printf("*** INSERISCI PRIORITA' (BASSA = 1, MEDIA = 2, ALTA = 3) ***: ");
     scanf("%d", &priorita);
     getchar();
+
+    if(priorita < 1 || priorita > 3){
+        printf("ERRORE! DEVI INSERIRE UN VALORE DA 1 A 3...");
+        return 0;
+    }
+
     a->importanza = (Priorita)priorita;
 
     a->stato = verifica_ritardo(a->data_di_scadenza) ? IN_RITARDO : IN_CORSO;
+
+    return 1; //Ritorna 1 se l'attività inserita è valida
 }
 
 // Modifica di un'attività

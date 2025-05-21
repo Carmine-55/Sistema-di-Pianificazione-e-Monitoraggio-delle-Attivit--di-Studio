@@ -42,7 +42,7 @@ int inserisci(PCoda c, Attivita nuovaAttivita) {
 // Ottieni l'attività con massima priorità
 Attivita ottieni_max(PCoda c) {
     if (vuota_PC(c)) {
-        Attivita vuota = { "Nessuna attività", "", "00/00/0000", 0, BASSA, COMPLETATA };
+        Attivita vuota = { "Nessuna attivita'", "", "00/00/0000", 0, BASSA, COMPLETATA };
         return vuota;
     }
     return c->vet[1];
