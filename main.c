@@ -15,7 +15,13 @@ void pulisci_schermo(){
 
 int main() {
     PCoda c = nuova_PC();
-    caricamento_da_file(NOME_FILE, c);
+
+    // Verifica se il file può essere letto correttamente
+    if (!caricamento_da_file(NOME_FILE, c)) {
+        printf("ERRORE DURANTE IL CARICAMENTO DEI FILE! CREAZIONE DI UN NUOVO FILE...\n");
+        salvataggio_su_file(NOME_FILE, c);
+    }
+
     int scelta;
 
     do {

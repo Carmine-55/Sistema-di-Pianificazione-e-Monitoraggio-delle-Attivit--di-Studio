@@ -63,7 +63,7 @@ int aggiungi_attivita(Attivita *a) {
 
 // Modifica di un'attività
 void modifica_attivita(Attivita *a) {
-    printf("*** NUOVA DESCRZIONE ***: ");
+    printf("*** NUOVA DESCRIZIONE ***: ");
     fgets(a->descrizione, sizeof(a->descrizione), stdin);
     a->descrizione[strcspn(a->descrizione, "\n")] = 0;
 
