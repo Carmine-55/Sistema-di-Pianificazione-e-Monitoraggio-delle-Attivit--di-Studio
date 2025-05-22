@@ -15,7 +15,6 @@ PCoda nuova_PC(void);
 int vuota_PC(PCoda c);
 int inserisci(PCoda c, Attivita nuovaAttivita);
 Attivita ottieni_max(PCoda c);
-int cancella_max(PCoda c);
 void mostra_progresso(PCoda c);
 void genera_report_settimanale(PCoda c);
 void elimina_attivita(PCoda c);
