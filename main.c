@@ -26,7 +26,13 @@ int main() {
 
     do {
         pulisci_schermo();
-        printf("\n****** BENVENUTO NEL PROGRAMMA DI GESTIONE DELLE ATTIVITA' DI STUDIO ******\n");
+        
+        printf("===========================================\n");
+        printf("   BENVENUTO NEL PROGRAMMA DI GESTIONE\n");
+        printf("      DELLE ATTIVITA' DI STUDIO!\n");
+        printf("===========================================\n\n");
+        
+        printf("MENU' PRINCIPALE:\n");
         printf("1. AGGIUNGI ATTIVITA'\n");
         printf("2. MODIFICA ATTIVITA'\n");
         printf("3. ELIMINA ATTIVITA'\n");
@@ -35,9 +41,10 @@ int main() {
         printf("6. GENERA IL REPORT SETTIMANALE\n");
         printf("7. OTTIENI L'ATTIVITA' CON MASSIMA PRIORITA'\n");
         printf("8. ESCI DAL PROGRAMMA\n");
+        printf("===========================================\n");
         printf("SCELTA: ");
         scanf("%d", &scelta);
-        getchar(); // Evita problemi di input
+        getchar();           // Pulisce eventuali caratteri avanzati nel buffer
 
         switch (scelta) {
             case 1: {

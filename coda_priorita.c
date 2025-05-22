@@ -51,14 +51,18 @@ Attivita ottieni_max(PCoda c) {
 // Eliminazione di un'attività scelta dall'utente mantenendo il heap ordinato
 void elimina_attivita(PCoda c) {
     if (vuota_PC(c)) {
-        printf("****** NON RISULTA PRESENTE NESSUNA ATTIVITA' ******\n");
+        printf("===========================================\n");
+        printf("   NON RISULTA PRESENTE NESSUNA ATTIVITA'\n");
+        printf("===========================================\n");
         return;
     }
 
     char descrizione[100];
-    printf("****** INSERISCI LA DESCRIZIONE DELL'ATTIVITA' CHE DESIDERI ELIMINARE ******: ");
+    printf("===========================================\n");
+    printf("INSERISCI LA DESCRIZIONE DELL'ATTIVITA' DA ELIMINARE:\n");
+    printf("===========================================\n");
     fgets(descrizione, sizeof(descrizione), stdin);
-    descrizione[strcspn(descrizione, "\n")] = 0;
+    descrizione[strcspn(descrizione, "\n")] = '\0';
 
     int indice = -1;
     for (int i = 1; i <= c->num_elementi; i++) {
@@ -69,90 +73,114 @@ void elimina_attivita(PCoda c) {
     }
 
     if (indice != -1) {
-        // Sostituisci l'elemento eliminato con l'ultimo e riduci il numero di elementi
+        // Sostituzione con l'ultimo elemento e riduzione del numero degli elementi
         c->vet[indice] = c->vet[c->num_elementi--]; 
 
-        //Procedura che serve a ripristinare l'heap dopo una rimozione 
+        // Riordino dell'heap dopo la rimozione
         int i = indice, figlio;
         Attivita temp;
-
         while (2 * i <= c->num_elementi) {
-            figlio = 2 * i;                   //Calcolo l'indice del figlio sinistro
-            
-            //Se esiste un figlio destro più importante del sinistro, allora scelgo lui
+            figlio = 2 * i;
             if (figlio < c->num_elementi && c->vet[figlio].importanza < c->vet[figlio + 1].importanza)
                 figlio++;
-            
-            //Se il nodo corrente ha un'importanza maggiore o uguale al figlio, allora l'heap è già corretto
             if (c->vet[i].importanza >= c->vet[figlio].importanza)
                 break;
-            
-            // Scambio l'elemento corrente con il figlio più importante per mantenere la proprietà dell'heap
             temp = c->vet[i];
             c->vet[i] = c->vet[figlio];
             c->vet[figlio] = temp;
-
-            i = figlio;  //Aggiorna l'indice per continuare la discesa nel sottoalbero
+            i = figlio;
         }
-
-        printf("****** HAI ELIMINATO L'ATTIVITA' CON SUCCESSO! ******\n");
+        printf("===========================================\n");
+        printf("  HAI ELIMINATO L'ATTIVITA' CON SUCCESSO!\n");
+        printf("===========================================\n");
     } else {
-        printf("****** L'ATTIVITA' NON E' STATA TROVATA ******\n");
+        printf("===========================================\n");
+        printf("   ATTIVITA' NON TROVATA!\n");
+        printf("===========================================\n");
     }
 }
 
-
 void mostra_progresso(PCoda c) {
     if (vuota_PC(c)) {
-        printf("******NON RISULTA PRESENTE NESSUNA ATTIVITA'.******\n");
+        printf("===========================================\n");
+        printf("   NON RISULTA PRESENTE NESSUNA ATTIVITA'\n");
+        printf("===========================================\n");
         return;
     }
 
-    printf("\n****** PROGRESSO DELLE ATTIVITA' ****** \n");
+    printf("===========================================\n");
+    printf("         PROGRESSO DELLE ATTIVITA'\n");
+    printf("===========================================\n\n");
+
+    
     for (int i = 1; i <= c->num_elementi; i++) {
-        printf("%d. %s (%s) - Scadenza: %s - Tempo stimato: %d ore - Priorita'(BASSA = 1, MEDIA = 2, ALTA = 3): %d - Stato: %s\n",
-               i, c->vet[i].descrizione, c->vet[i].corso, c->vet[i].data_di_scadenza,
-               c->vet[i].tempo_stimato, c->vet[i].importanza,
+        printf("Attivita' %d\n", i);
+        printf("Descrizione    : %s\n", c->vet[i].descrizione);
+        printf("Corso          : %s\n", c->vet[i].corso);
+        printf("Scadenza       : %s\n", c->vet[i].data_di_scadenza);
+        printf("Tempo stimato  : %d ore\n", c->vet[i].tempo_stimato);
+        printf("Priorita'      : %s\n", 
+               (c->vet[i].importanza == ALTA) ? "ALTA" : 
+               (c->vet[i].importanza == MEDIA) ? "MEDIA" : "BASSA");
+        printf("Stato          : %s\n", 
                (c->vet[i].stato == IN_RITARDO) ? "In Ritardo" : 
                (c->vet[i].stato == COMPLETATA) ? "Completata" : "In Corso");
+        printf("-------------------------------------------\n");
     }
+    printf("\n");
 }
 
 void genera_report_settimanale(PCoda c) {
     if (vuota_PC(c)) {
-        printf("******NON RISULTA PRESENTE NESSUNA ATTIVITA'.******\n");
+        printf("===========================================\n");
+        printf("   NON RISULTA PRESENTE NESSUNA ATTIVITA'\n");
+        printf("===========================================\n");
         return;
     }
 
-    printf("\n****** REPORT SETTIMANALE DELLE ATTIVITA' ******\n");
-    printf("\n *** ATTIVITA' COMPLETATE ***:\n");
+    printf("===========================================\n");
+    printf("  REPORT SETTIMANALE DELLE ATTIVITA'\n");
+    printf("===========================================\n\n");
+
+    printf(">>> ATTIVITA' COMPLETATE:\n");
     for (int i = 1; i <= c->num_elementi; i++) {
         if (c->vet[i].stato == COMPLETATA) {
             printf("%s (%s)\n", c->vet[i].descrizione, c->vet[i].corso);
         }
     }
-    printf("\n *** ATTIVITA' IN CORSO ***:\n");
+    printf("\n");
+
+    printf(">>> ATTIVITA' IN CORSO:\n");
     for (int i = 1; i <= c->num_elementi; i++) {
         if (c->vet[i].stato == IN_CORSO) {
             printf("%s (%s) - Scadenza: %s\n", c->vet[i].descrizione, c->vet[i].corso, c->vet[i].data_di_scadenza);
         }
     }
-    printf("\n *** ATTIVITA' IN RITARDO ***:\n");
+    printf("\n");
+
+    printf(">>> ATTIVITA' IN RITARDO:\n");
     for (int i = 1; i <= c->num_elementi; i++) {
         if (c->vet[i].stato == IN_RITARDO) {
             printf("%s (%s) - Scadenza: %s\n", c->vet[i].descrizione, c->vet[i].corso, c->vet[i].data_di_scadenza);
         }
     }
+     printf("===========================================\n\n");
 }
 
 void completa_un_attivita(PCoda c) {
     if (vuota_PC(c)) {
-        printf("\n***NON CI SONO ATTIVITA' DA COMPLETARE! ***\n");
+        printf("===========================================\n");
+        printf("   NON CI SONO ATTIVITA' DA COMPLETARE!\n");
+        printf("===========================================\n\n");
         return;
     }
 
     char descrizione[100];
-    printf("*** INSERISCI LA DESCRIZIONE DELL'ATTIVITA' COMPLETATA ***: ");
+
+    printf("========================================================\n");
+    printf("INSERISCI LA DESCRIZIONE DELL'ATTIVITA' COMPLETATA:\n");
+    printf("========================================================\n");
+
     fgets(descrizione, sizeof(descrizione), stdin);
     descrizione[strcspn(descrizione, "\n")] = 0;
 
@@ -166,8 +194,21 @@ void completa_un_attivita(PCoda c) {
 
     if (indice != -1) {
         c->vet[indice].stato = COMPLETATA;
-        printf("ATTIVITA' COMPLETATA: %s\n", c->vet[indice].descrizione);
+        printf("===========================================\n");
+        printf("  HAI COMPLETATO L'ATTIVITA' CON SUCCESSO!\n");
+        printf("===========================================\n");
+
+        printf("Descrizione    : %s\n", c->vet[indice].descrizione);
+        printf("Corso          : %s\n", c->vet[indice].corso);
+        printf("Scadenza       : %s\n", c->vet[indice].data_di_scadenza);
+        printf("Tempo stimato  : %d ore\n", c->vet[indice].tempo_stimato);
+        printf("-------------------------------------------\n\n");
+
     } else {
-        printf(" ATTIVITA' NON TROVATA!\n");
+
+        printf("===========================================\n");
+        printf("   ATTIVITA' NON TROVATA!\n");
+        printf("===========================================\n\n");
     }
 }
+ 
