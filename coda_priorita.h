@@ -18,6 +18,5 @@ Attivita ottieni_max(PCoda c);
 void mostra_progresso(PCoda c);
 void genera_report_settimanale(PCoda c);
 void elimina_attivita(PCoda c);
-void completa_un_attivita(PCoda c);
 
 #endif
