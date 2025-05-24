@@ -4,44 +4,165 @@
 #include <string.h>
 #include "coda_priorita.h"
 
-//Creazione di una nuova coda di priorità
+
+
+/* FUNZIONI RELATIVE ALLA CODA A PRIORITA' */
+
+/* ----------------------------------------------------------------
+
+- Funzione: nuova_PC
+
+- Crea e inizializza una nuova coda di priorità
+
+- Specifica sintattica:  PCoda nuova_PC(void) -> PCoda
+
+- Parametri: (Nessuno parametro)
+
+- Specifica semantica: nuova_PC() -> PCoda
+
+- Pre-Condizioni: (Nessuna)
+
+- Post-Condizioni: Restituisce un oggetto di tipo PCoda
+                   Altrimenti NULL in caso di fallimento dell'allocazione
+
+- Ritorna: Un oggetto di tipo PCoda 
+           Altrimenti NULL
+      
+- Effetti collaterali: Viene allocata dinamicamente della memoria che deve essere liberata tramite free()         
+
+*/
+
+
 PCoda nuova_PC(void) {
+
     PCoda c = malloc(sizeof(CodaPriorita));
-    if (!c) return NULL;
+    if (!c)
+    return NULL;
+
     c->num_elementi = 0;
     return c;
 }
 
-// Verifica se la coda è vuota
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: vuota_PC
+
+- Verifica se la coda di priorità è vuota oppure non è stata inizializzata
+
+- Specifica sintattica: int vuota_PC(PCoda) -> int
+
+- Parametri: 
+             c: PCoda
+
+- Specifica semantica:  vuota_PC(c) -> int
+
+- Pre-Condizioni: Il parametro inserito deve essere di tipo PCoda (oppure NULL)
+
+- Post-Condizioni: Restituisce 1 se la coda è vuota o non inizializzata
+                   Altrimenti 0
+
+- Ritorna: 1 se la coda è vuota o non valida
+           0 se contiene almeno un elemento
+
+- Effetti collaterali: (Nessuno)           
+
+*/
+
+
 int vuota_PC(PCoda c) {
+
     return !c || c->num_elementi == 0;
 }
 
-// Inserisce un'attività nella coda e riordina l'heap
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: inserisci
+
+- Inserisce un nuovo elemento di tipo 'Attivita' in una coda organizzata con max-heap
+
+- Specifica sintattica:  int inserisci(PCoda, Attivita) -> int
+
+- Parametri: 
+             c: PCoda
+             nuovaAttivita: Attivita 
+      
+- Specifica semantica:  inserisci(c, nuovaAttivita) -> int   
+
+- Pre-Condizioni: La coda deve essere inizializzata e avere spazio sufficiente, ovvero (numero elementi < MAX_HEAP)
+
+- Post-Condizioni: La coda mantiene sempre la proprietà del max-heap e contiene l'elemento inserito
+
+- Ritorna: 1 se l'elemento è stato inserito con successo
+           0 altrimenti
+
+- Effetti collaterali: La struttura di tipo PCoda viene modificata           
+
+*/
+
+
 int inserisci(PCoda c, Attivita nuovaAttivita) {
+
     if (!c || c->num_elementi >= MAX_HEAP) 
         return 0;
 
     c->num_elementi++;
     c->vet[c->num_elementi] = nuovaAttivita;
 
-    // Riordina l'heap (heap max in base all'importanza)
+    
     int pos = c->num_elementi, i = pos / 2;
 
     Attivita temp;
 
+
+    //Continua finchè l'elemento corrente ha importanza maggiore del genitore
+
     while (pos > 1 && c->vet[pos].importanza > c->vet[i].importanza) {
+
+          //Scambia il genitore con il figlio per mantenere il max-heap
+
           temp = c->vet[i];
           c->vet[i] = c->vet[pos];
           c->vet[pos] = temp;
-          pos = i;
-          i = pos / 2;
+
+          pos = i;         //Aggiorna la posizione corrente con quella del genitore
+
+          i = pos / 2;     //Calcola il nuovo indice del genitore 
     }
     return 1;
 }
 
-// Restituisce l'attività con massima priorità
+
+/* ----------------------------------------------------------------
+
+-Funzione: ottieni_max
+
+- Restituisce l'elemento con il massimo valore di importanza dalla coda di priorità
+
+- Specifica sintattica:   Attivita ottieni_max(PCoda) -> Attivita
+
+- Parametri: 
+             c: PCoda
+
+- Specifica semantica:  ottieni_max(c) -> Attivita
+
+- Pre-Condizioni: (Nessuna)
+
+- Post-Condizioni: Se la coda è vuota viene restituita una 'Attivita' predefinita
+                   Altrimenti, l'elemento in cima.
+
+- Ritorna: l'oggetto di tipo 'Attivita' con il maggior grado di importanza
+
+- Effetti collaterali: (Nessuno)
+
+*/
+
+
 Attivita ottieni_max(PCoda c) {
+
     if (vuota_PC(c)) {
         Attivita vuota = { "Nessuna attivita'", "", "00/00/0000", 0, BASSA, COMPLETATA, 0 };
         return vuota;
@@ -49,7 +170,32 @@ Attivita ottieni_max(PCoda c) {
     return c->vet[1];
 }
 
-// Visualizza il progresso di tutte le attività
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: mostra_progresso
+
+- Permette di visualizzare i dettagli e i progressi degli elementi presenti nella coda
+
+- Specifica sintattica: void mostra_progresso(PCoda) -> void
+
+- Parametri: 
+             c: PCoda
+
+- Specifica semantica:  mostra_progresso(c) -> void
+
+- Pre-Condizioni: La coda deve essere inizializzata
+
+- Post-Condizioni: I dettagli degli elementi vengono stampati a schermo
+
+- Ritorna: (Nessun valore)
+
+- Effetti collaterali: Stampa l'output a schermo
+
+*/
+
+
 void mostra_progresso(PCoda c) {
 
     if (vuota_PC(c)) {
@@ -64,6 +210,7 @@ void mostra_progresso(PCoda c) {
     printf("===========================================\n\n");
 
     for (int i = 1; i <= c->num_elementi; i++) {
+
         printf("Attivita' %d\n", i);
         printf("Descrizione    : %s\n", c->vet[i].descrizione);
         printf("Corso          : %s\n", c->vet[i].corso);
@@ -83,29 +230,57 @@ void mostra_progresso(PCoda c) {
     printf("\n");
 }
 
-// Genera un report settimanale delle attività in base alla data di scadenza
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: genera_report_settimanale
+
+- Genera un report dei dati temporali di tutti gli elementi della coda a priorità 
+  che rientrano nella settimana corrente
+
+- Specifica sintattica:  void genera_report_settimanale(PCoda) -> void
+
+- Parametri: 
+             c: PCoda
+
+- Specifica semantica:  genera_report_settimanale(c) -> void   
+
+- Pre-Condizioni: La coda deve essere inizializzata
+
+- Post-Condizioni: Viene visualizzato un report di riepilogo degli elementi filtrati per intervallo
+
+- Ritorna: (Nessun valore)
+
+- Effetti collaterali: Stampa l'output a schermo
+
+*/
+
 
 void genera_report_settimanale(PCoda c) {
 
     time_t attuale = time(NULL);
-    struct tm *corrente = localtime(&attuale);
-    struct tm inizioSettimana = *corrente;
 
-    //Calcola l'inizio della settimana (Lunedì è impostato come inizio della settimana)
+    struct tm *corrente = localtime(&attuale);
+
+    struct tm inizioSettimana = *corrente;      //Calcola l'inizio della settimana, ovvero (Lunedì alle 00:00:00)
 
     int diff = (corrente->tm_wday == 0 ? 6 : corrente->tm_wday - 1);
+
     inizioSettimana.tm_mday -= diff;
     inizioSettimana.tm_hour = 0;
     inizioSettimana.tm_min = 0;
     inizioSettimana.tm_sec = 0;
     time_t start_t = mktime(&inizioSettimana);
 
-    //Fine della settimana impostata a Domenica alle ore 23:59:59
-    struct tm fineSettimana = inizioSettimana;
+    
+    struct tm fineSettimana = inizioSettimana;  //Calcola la fine della settimana, ovvero (Domenica alle 23:59:59)
+
     fineSettimana.tm_mday += 6;
     fineSettimana.tm_hour = 23;
     fineSettimana.tm_min = 59;
     fineSettimana.tm_sec = 59;
+
     time_t end_t = mktime(&fineSettimana);
 
     int contaCompletate = 0, contaInCorso = 0, contaInRitardo = 0;
@@ -114,32 +289,38 @@ void genera_report_settimanale(PCoda c) {
     printf("  REPORT SETTIMANALE DELLE ATTIVITA'\n");
     printf("===========================================\n\n");
 
+    //Esamina le attività per vedere se risultano nell'intervallo della settimana corrente 
+
     for (int i = 1; i <= c->num_elementi; i++) {
 
         Attivita a = c->vet[i];
 
         int giorno, mese, anno;
 
-        // Se l'attività è completata, usa la data di completamento,
-        // altrimenti usa la data di scadenza.
+
+        //Usa la data di completamento solo se è disponibile, altrimenti utilizza la data di scadenza
+
         if(a.stato == COMPLETATA) {
+
             if(strlen(a.data_completamento) > 0)
-                sscanf(a.data_completamento, "%d/%d/%d", &giorno, &mese, &anno);
+               sscanf(a.data_completamento, "%d/%d/%d", &giorno, &mese, &anno);
 
             else
                 sscanf(a.data_di_scadenza, "%d/%d/%d", &giorno, &mese, &anno);
 
         }   else {
-            sscanf(a.data_di_scadenza, "%d/%d/%d", &giorno, &mese, &anno);
+
+                sscanf(a.data_di_scadenza, "%d/%d/%d", &giorno, &mese, &anno);
         }
 
-        struct tm tmData = {0};
+        struct tm tmData = {0};    //Crea una struttura temporanea per la data della task
         tmData.tm_mday = giorno;
         tmData.tm_mon = mese - 1;
         tmData.tm_year = anno - 1900;
         tmData.tm_hour = 0;
         tmData.tm_min = 0;
         tmData.tm_sec = 0;
+
         time_t dataTask = mktime(&tmData);
 
         if(dataTask >= start_t && dataTask <= end_t) {
@@ -175,8 +356,36 @@ void genera_report_settimanale(PCoda c) {
     while(getchar() != '\n');
 }
 
-// Eliminazione di un'attività mantenendo l'heap ordinato
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: elimina_attivita
+
+- Rimuove un elemento di tipo 'Attivita' basandosi sulla descrizione inserita e
+  aggiorna l'ordinamento per mantenere il max-heap
+
+- Specifica sintattica: void elimina_attivita(PCoda) -> void
+
+- Parametri:
+            c: PCoda
+
+- Specifica semantica:  elimina_attivita(c) -> void 
+
+- Pre-Condizioni: La coda deve essere inizializzata e contenere almeno un elemento
+
+- Post-Condizioni: L'elemento corrispondente alla ricerca viene eliminato e la 
+                   struttura mantiene il max-heap
+
+- Ritorna: (Nessun valore)           
+
+- Effetti collaterali: Modifica la struttura di tipo PCoda
+
+*/
+
+
 void elimina_attivita(PCoda c) {
+
     if (vuota_PC(c)) {
         printf("===========================================\n");
         printf("   NON RISULTA PRESENTE NESSUNA ATTIVITA'\n");
@@ -193,6 +402,9 @@ void elimina_attivita(PCoda c) {
     fgets(descrizione, sizeof(descrizione), stdin);
     descrizione[strcspn(descrizione, "\n")] = '\0';
 
+
+    //Cerca l'attività corrispondente alla descrizione fornita
+
     int indice = -1;
 
     for (int i = 1; i <= c->num_elementi; i++) {
@@ -203,22 +415,30 @@ void elimina_attivita(PCoda c) {
         }
     }
 
+    //Sostituisce l'elemento da eliminare con l'ultimo elemento e diminuisce la dimensione della coda
+
     if (indice != -1) {
+
         c->vet[indice] = c->vet[c->num_elementi--];
 
-        // Riordino l'heap dopo la rimozione
+    
         int i = indice, figlio;
 
         Attivita temp;
+
         while (2 * i <= c->num_elementi) {
             figlio = 2 * i;
 
             if (figlio < c->num_elementi && c->vet[figlio].importanza < c->vet[figlio + 1].importanza)
                 figlio++;
 
+            //Se l'elemento corrente è maggiore o uguale al figlio, allora l'heap risulta ordinato
+
             if (c->vet[i].importanza >= c->vet[figlio].importanza)
                 break;
-
+            
+            //Scambia l'elemento corrente con il figlio più grande 
+                
             temp = c->vet[i];
             c->vet[i] = c->vet[figlio];
             c->vet[figlio] = temp;
@@ -236,3 +456,58 @@ void elimina_attivita(PCoda c) {
         printf("===========================================\n");
     }
 }
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: mostra_notifiche
+
+- Permette di visualizzare in output le notifiche relative agli elementi in ritardo
+
+- Specifica sintattica:  void mostra_notifiche(PCoda) -> void
+
+- Parametri:
+             c: PCoda
+
+- Specifica semantica:   mostra_notifiche(c) -> void
+
+- Pre-Condizioni: Il parametro deve essere di tipo PCoda e rappresentare una collezione valida
+
+- Post-Condizioni: Le notifiche, se presenti, vengono mostrate su schermo altrimenti viene 
+                   visualizzato un messaggio indicante l'assenza di elementi in ritardo
+
+- Ritorna: (Nessun valore)       
+
+- Effetti collaterali:  Stampa l'output a schermo
+
+
+*/
+
+void mostra_notifiche(PCoda c) {                          
+
+    int notificaPresente = 0;
+
+    printf("===========================================\n");
+    printf("      PROMEMORIA: ATTIVITA' IN RITARDO\n");
+    printf("===========================================\n\n");
+
+    for (int i = 1; i <= c->num_elementi; i++) {
+
+        if (c->vet[i].stato == IN_RITARDO) {
+            printf("Attivita': %s\n", c->vet[i].descrizione);
+            printf("Scadenza : %s\n", c->vet[i].data_di_scadenza);
+            printf("Progresso: %d%%\n", c->vet[i].progresso);
+            printf("-------------------------------------------\n");
+
+            notificaPresente = 1;
+        }
+    }
+
+    if (!notificaPresente)
+
+        printf("NESSUNA ATTIVITA' E' IN RITARDO!\n");
+        printf("\nPREMI INVIO PER CONTINUARE");
+
+        while (getchar() != '\n');      //Pulisco il buffer di input ed elimino i caratteri residui fino a '\n'
+}
+

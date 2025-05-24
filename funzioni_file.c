@@ -3,8 +3,38 @@
 #include <string.h>
 #include "funzioni_file.h"
 
-// Funzione che permette di salvare le attività nel file
+
+/* FUNZIONI RELATIVE AI FILE */
+
+/* ----------------------------------------------------------------
+
+- Funzione: salvataggio_su_file
+
+- Salva gli elementi di tipo 'Attivita' in un file di testo usando un formato fisso,
+  comprensivo di intestazione e separatori
+
+- Specifica sintattica:  int salvataggio_su_file(const char*, PCoda) -> int
+
+- Parametri: 
+            nome_file: attività.txt 
+            c: PCoda
+
+- Specifica semantica:  salvataggio_su_file(nome_file, c) -> int 
+
+- Pre-Condizioni: Il file, se è presente, deve corrispondere al formato stabilito 
+
+- Post-Condizioni: I dati vengono scritti su disco in base al formato stabilito
+
+- Ritorna: 1 se il salvataggio è avvenuto con successo
+           0 altrimenti
+
+- Effetti collaterali: Crea oppure sovrascrive il file sul disco           
+
+*/
+
+
 int salvataggio_su_file(const char *nome_file, PCoda c) {
+
     FILE *file = fopen(nome_file, "w");
     if (!file) {
         perror("ERRORE DURANTE L'APERTURA DEL FILE DI SALVATAGGIO!");
@@ -16,6 +46,7 @@ int salvataggio_su_file(const char *nome_file, PCoda c) {
     fprintf(file, "===========================================\n\n");
 
     for (int i = 1; i <= c->num_elementi; i++) {
+
         Attivita *a = &c->vet[i];
 
         fprintf(file, "Attività %d\n", i);
@@ -35,28 +66,57 @@ int salvataggio_su_file(const char *nome_file, PCoda c) {
     return 1;
 }
 
-// Funzione che carica le attività dal file
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: caricamento_da_file
+
+- Carica gli elementi di tipo Attivita da un file di testo e li inserisce in una struttura
+  di tipo PCoda, basandosi su un formato stabilito
+
+- Specifica sintattica:  int caricamento_da_file(const char*, PCoda) -> int
+
+- Parametri: 
+             nome_file: attività.txt 
+             c: PCoda
+
+- Specifica semantica:  caricamento_da_file(nome_file, c) -> int    
+
+- Pre-Condizioni:  Il file esiste ed è formattato secondo lo schema previsto
+
+- Post-Condizioni: La struttura PCoda viene popolata con gli elementi letti dal file
+
+- Ritorna: 1 se il caricamento ha avuto successo
+           0 altrimenti
+
+- Effetti collaterali: Modifica la struttura di tipo Pcoda           
+
+*/
+
+
 int caricamento_da_file(const char *nome_file, PCoda c) {
+
     FILE *file = fopen(nome_file, "r");
     if (!file) {
-        return 0;   // Il file potrebbe non esistere
+        return 0;   
     }
 
-    char buffer[256];
+    char buffer[256];  //Buffer per leggere le righe dal file
+
     Attivita a;
 
-    // Salta le intestazioni
     fgets(buffer, sizeof(buffer), file);
     fgets(buffer, sizeof(buffer), file);
     fgets(buffer, sizeof(buffer), file);
 
     while (fgets(buffer, sizeof(buffer), file)) {
 
-        //Ignora i separatori o le righe vuote
-        if (buffer[0] == '-' || strlen(buffer) <= 1)
+      
+        if (buffer[0] == '-' || strlen(buffer) <= 1)        //Salta le righe di separazione oppure vuote
             continue;
 
-        // Lettura dei campi salvati
+        
         fgets(buffer, sizeof(buffer), file);
         strcpy(a.descrizione, buffer + 17);
         a.descrizione[strcspn(a.descrizione, "\n")] = '\0';
@@ -70,9 +130,14 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         a.data_di_scadenza[strcspn(a.data_di_scadenza, "\n")] = '\0';
 
         fgets(buffer, sizeof(buffer), file);
-        a.tempo_stimato = atoi(buffer + 17);
+
+        a.tempo_stimato = atoi(buffer + 17);        
 
         fgets(buffer, sizeof(buffer), file);
+
+
+        //Legge la priorità e la collega al corrispettivo enumerativo
+
         if (strcmp(buffer + 17, "ALTA\n") == 0)
             a.importanza = ALTA;
 
@@ -98,20 +163,24 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         int prog;
 
         sscanf(buffer + 17, "%d", &prog);
-        a.progresso = prog;
+
+        a.progresso = prog;          //Legge la percentuale di progresso
         
-        // Lettura del campo "Data Completamento" dal file
+        
         fgets(buffer, sizeof(buffer), file);
+
         if(strlen(buffer) > 21) {
         strcpy(a.data_completamento, buffer + 21);
 
-        // Rimuove il newline in fondo, solo se è presente
+      
          a.data_completamento[strcspn(a.data_completamento, "\n")] = '\0';
-        } else {
-        strcpy(a.data_completamento, "Non disponibile");
+
+        } 
+          else {
+        strcpy(a.data_completamento, "Non disponibile");        //Se non è presente una data di completamento, imposta il campo a 'Non disponibile'
         }
 
-        inserisci(c, a);
+        inserisci(c, a);     //Inserisce l'attività nella coda 
     }
 
     fclose(file);

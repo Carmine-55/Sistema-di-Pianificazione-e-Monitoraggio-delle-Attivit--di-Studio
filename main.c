@@ -1,3 +1,9 @@
+/* AVVISO!: Nel codice sono stati utilizzati e implementati
+            comandi 'system' per ottenere una pulizia ottimale
+            del terminale. Essi potrebbero creare conflitti o 
+            bug di varia natura. "Elimnarli" se presenti. */
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "item.h"
@@ -6,7 +12,32 @@
 #include <time.h>
 #define NOME_FILE "attivita'.txt"
 
-// Funzione per pulire lo schermo
+
+/* FUNZIONI RELATIVE AL MAIN */
+
+/* ----------------------------------------------------------------
+
+- Funzione: pulisci_schermo
+
+- La funzione esegue la pulizia del terminale utilizzando un comando
+  specifico per il sistema operativo in uso
+
+- Specifica sintattica:  void pulisci_schermo(void) -> void
+
+- Parametri: (Nessuno)
+
+- Specifica semantica: pulisci_schermo() -> void 
+
+- Pre-Condizioni: (Nessuna)
+
+- Post-Condizioni:  Il terminale viene aggiornato  mostrando lo schermo pulito
+
+- Ritorna: (Nessun valore)
+
+- Effetti collaterali:  Produce output modificando il contenuto visivo del terminale
+
+*/
+
 void pulisci_schermo(){
     #ifdef _WIN32
        system("cls");   // Per Windows
@@ -15,38 +46,13 @@ void pulisci_schermo(){
     #endif      
 }
 
-// Funzione per mostrare le notifiche (attività in ritardo)
-void mostra_notifiche(PCoda c) {
-
-    int notificaPresente = 0;
-
-    printf("===========================================\n");
-    printf("      PROMEMORIA: ATTIVITA' IN RITARDO\n");
-    printf("===========================================\n\n");
-
-    for (int i = 1; i <= c->num_elementi; i++) {
-
-        if (c->vet[i].stato == IN_RITARDO) {
-            printf("Attivita': %s\n", c->vet[i].descrizione);
-            printf("Scadenza : %s\n", c->vet[i].data_di_scadenza);
-            printf("Progresso: %d%%\n", c->vet[i].progresso);
-            printf("-------------------------------------------\n");
-
-            notificaPresente = 1;
-        }
-    }
-
-    if (!notificaPresente)
-        printf("NESSUNA ATTIVITA' E' IN RITARDO!\n");
-        printf("\nPREMI INVIO PER CONTINUARE");
-        while (getchar() != '\n');
-}
 
 int main() {
     PCoda c = nuova_PC();
     
-    // Prova a caricare il file; se fallisce, crea un nuovo file
-    if (!caricamento_da_file(NOME_FILE, c)) {
+    
+    if (!caricamento_da_file(NOME_FILE, c)) {     //Carica i dati presenti in 'attività.txt. Se fallisce inizializza il salvataggio
+
         printf("ERRORE DURANTE IL CARICAMENTO DEI FILE!\nCREAZIONE DI UN NUOVO FILE...\n");
         salvataggio_su_file(NOME_FILE, c);
     }
@@ -73,12 +79,15 @@ int main() {
         printf("===========================================\n");
         printf("SCELTA: ");
         scanf("%d", &scelta);
-        getchar(); // Pulisce il buffer
+
+        getchar();        //Consuma il carattere di newline residuo
 
         switch (scelta) {
-            case 1: {
-                Attivita nuova;
 
+            case 1:       //Aggiunta di una nuova attività
+                
+                Attivita nuova;
+            
                 if (aggiungi_attivita(&nuova)) {
                     inserisci(c, nuova);
                     salvataggio_su_file(NOME_FILE, c);
@@ -88,8 +97,9 @@ int main() {
                 }
 
                 break;
-            }
-            case 2: {
+            
+
+            case 2:        //Modifica un'attività esistente
 
                 if (vuota_PC(c)) {
                     printf("\nNON E' PRESENTE NESSUNA ATTIVITA' DA MODIFICARE\n");
@@ -109,17 +119,17 @@ int main() {
                         modifica_attivita(&c->vet[indice]);
                         salvataggio_su_file(NOME_FILE, c);
                     }
-                }
+                
                 break;
             }
 
-            case 3:
+            case 3:    //Elimina un'attività esistente
 
                 elimina_attivita(c);
                 salvataggio_su_file(NOME_FILE, c);
                 break;
 
-            case 4: {
+            case 4:     //Aggiorna il progresso di un'attività 
 
                 if (vuota_PC(c)) {
                     printf("\nNON E' PRESENTE NESSUNA ATTIVITA' DA AGGIORNARE\n");
@@ -142,36 +152,36 @@ int main() {
                 }
 
                 break;
-            }
-            case 5:
+            
+            case 5:      //Visualizza progresso
 
                 mostra_progresso(c);
                 break;
 
-            case 6:
+            case 6:      //Generazione di un report settimanale
 
                 genera_report_settimanale(c);
                 break;
 
-            case 7:
+            case 7:      //Mostra l'attività con priorità massima
 
                 Attivita max = ottieni_max(c);
                 mostra_attivita(&max);
                 break;
 
-            case 8:
+            case 8:      //Visualizzazione notifica di un'attività in ritardo
 
                 mostra_notifiche(c);
                 break;
 
-            case 9:
+            case 9:      //Uscita dall'applicazione
 
                 printf("USCITA IN CORSO...\n");
                 printf("PREMI INVIO PER USCIRE DALL'APP...");
                 while(getchar() != '\n');
                 break;
 
-            default:
+            default:     //Errore in caso di scelta non valida
 
                 printf("LA SCELTA NON E' VALIDA!\n");
         }
