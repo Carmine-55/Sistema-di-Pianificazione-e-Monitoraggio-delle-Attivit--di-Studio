@@ -9,6 +9,7 @@ typedef struct {
 
 
 
+
 --- FUNZIONI RELATIVE ALLA CODA A PRIORITA' ---
 
 - nuova_PC() -> PCoda                                       Crea e inizializza dinamicamente una nuova coda a priorità.
@@ -46,6 +47,8 @@ typedef struct {
 
 
 
+
+
 --- FUNZIONE RELATIVE AD ATTIVITA' ---
 
 aggiungi_attivita(Attivita *a) -> int                   Raccoglie in input i dati necessari per creare una nuova attività, inizializza il progresso a 0 e determina lo stato (IN_CORSO o IN_RITARDO) in base al confronto della data di scadenza con la data corrente
@@ -60,6 +63,9 @@ aggiorna_progresso_attivita(Attivita *a) -> void        Aggiorna la percentuale 
 
 
 
+
+
+
 --- FUNZIONI RELATIVE AI FILE ---
 
 salvataggio_su_file(const char *nome_file, PCoda c) -> int         Salva l’elenco delle attività su un file di testo (il file viene creato o sovrascritto) usando un formato fisso
@@ -68,9 +74,15 @@ caricamento_da_file(const char *nome_file, PCoda c) -> int         Carica le att
 
 
 
+
+
+
 --- FUNZIONI RELATIVE ALL'INTERFACCIA UTENTE --- 
 
 - pulisci_schermo() -> void                             Pulisce il terminale utilizzando i comandi di sistema appropriati (cls per Windows, clear per Mac/Linux)
+
+
+
 
 
 
@@ -96,6 +108,7 @@ caricamento_da_file(const char *nome_file, PCoda c) -> int         Carica le att
 9. Uscita dal programma
 
 
+
 Case 1: (Aggiungi attività)
 
 -Chiedi all'utente di inserire: 
@@ -113,6 +126,7 @@ Case 1: (Aggiungi attività)
 - Salva la coda aggiornata sul file esterno
 - Visualizza un messaggio di conferma
 - Se premi INVIO torna al menù principale 
+
 
 
 Case 2: (Modifica attività)
@@ -136,6 +150,7 @@ Case 2: (Modifica attività)
 - Premi INVIO per tornare al menù principale
 
 
+
 Case 3: (Elimina attività)
 
 - Se la coda è vuota, visualizza un messaggio d’errore
@@ -143,6 +158,7 @@ Case 3: (Elimina attività)
 - Rimuovi l’attività corrispondente dalla coda a priorità (aggiornando il max-heap)
 - Salva la coda modificata sul file esterno
 - Premi INVIO e torna al menù principale
+
 
 
 Case 4: (Aggiorna il progresso)
@@ -154,6 +170,7 @@ Case 4: (Aggiorna il progresso)
 - Aggiorna il progresso nella struttura dell’attività
 - Salva la coda aggiornata sul file esterno
 - Premi INVIO e torna al menù principale
+
 
 
 Case 5: (Visualizza progresso)
@@ -170,11 +187,13 @@ Case 5: (Visualizza progresso)
 - Data di Completamento  (Solo se presente)
 
 
+
 Case 6: (Genera report settimanale)
 
 - Analizza le attività nella coda per identificare quelle che rientrano nella settimana corrente (da lunedì a domenica)
 - Genera e visualizza un report riepilogativo che includa il conteggio delle attività (Completate , In corso, In ritardo)
 - Premi INVIO e torna al menù principale
+
 
 
 Case 7: (Ottieni l'attività con massima priorità)
@@ -184,10 +203,12 @@ Case 7: (Ottieni l'attività con massima priorità)
 - Premi INVIO e torna al menù principale
 
 
+
 Case 8: (Mostra notifiche delle attività in ritardo)
 
 - Stampa a schermo tutte le attività che risultano in ritardo
 - Premi INVIO e torna al menù principale
+
 
 
 Case 9: (Uscita dal programma)
