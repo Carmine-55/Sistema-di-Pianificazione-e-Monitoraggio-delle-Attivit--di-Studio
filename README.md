@@ -119,8 +119,10 @@ Case 2: (Modifica attività)
 
 - Se non sono presenti attività, mostra un messaggio d’avviso. Se premi INVIO ritorna al menù principale
 - Altrimenti chiedi all'utente di inserire l’indice dell’attività che vuole modificare
+  
 
 - Richiedi i nuovi dati per:
+
   
 - Descrizione
 - Nome del corso
