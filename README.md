@@ -1,11 +1,11 @@
 --- ADT CODA CODA A PRIORITA' ---
 
-typedef struct {
+ struct CodaPriorita{
 
     Vettore:              Array di 'Attivita    // Array di attività memorizzate nell'heap
     Numero di elementi:   Intero                // Numero di elementi nella coda
     
-} CodaPriorita, *PCoda;
+};
 
 
 
@@ -26,6 +26,12 @@ typedef struct {
 
 - mostra_notifiche(PCoda c) -> void                         Visualizza le notifiche relative alle attività in ritardo
 
+- ottieni_numero_attivita(c) -> int                         Restituisce il numero di attività presenti nella coda
+
+- ottieni_attivita(c, indice) -> Attivita                   Restituisce una copia dell'attività presente nella coda in corrispondenza dell'indice che è stato fornito 
+  
+-  ottieni_attivita_puntatore(c, indice) -> Attivita*       Restituisce il puntatore all'attività presente nella coda in corrispondenza dell'indice fornito,consentendo di modificarla direttamente
+  
 
 
 
