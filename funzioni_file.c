@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "funzioni_file.h"
+#include "coda_priorita.h"
+#include "item.h"
 
 
 /* FUNZIONI RELATIVE AI FILE */
@@ -30,39 +32,56 @@
 
 - Effetti collaterali: Crea oppure sovrascrive il file sul disco           
 
+
 */
+
 
 
 int salvataggio_su_file(const char *nome_file, PCoda c) {
 
     FILE *file = fopen(nome_file, "w");
+
     if (!file) {
+
         perror("ERRORE DURANTE L'APERTURA DEL FILE DI SALVATAGGIO!");
+
         return 0;
     }
+
 
     fprintf(file, "===========================================\n");
     fprintf(file, "          Elenco Attivita'\n");
     fprintf(file, "===========================================\n\n");
 
-    for (int i = 1; i <= c->num_elementi; i++) {
 
-        Attivita *a = &c->vet[i];
+    int n = ottieni_numero_attivita(c);
 
-        fprintf(file, "Attività %d\n", i);
-        fprintf(file, "Descrizione    : %s\n", a->descrizione);
-        fprintf(file, "Corso          : %s\n", a->corso);
-        fprintf(file, "Scadenza       : %s\n", a->data_di_scadenza);
-        fprintf(file, "Tempo stimato  : %d ore\n", a->tempo_stimato);
-        fprintf(file, "Priorita'      : %s\n",  (a->importanza == ALTA) ? "ALTA" : (a->importanza == MEDIA) ? "MEDIA" : "BASSA");
-        fprintf(file, "Stato          : %s\n",   (a->stato == IN_RITARDO) ? "In Ritardo" : (a->stato == COMPLETATA) ? "Completata" : "In Corso");
-        fprintf(file, "Progresso      : %d%%\n", a->progresso);
-        fprintf(file, "Data Completamento : %s\n", (a->data_completamento[0] ? a->data_completamento : "Non disponibile"));
+    for (int i = 1; i <= n; i++) {
 
-        fprintf(file, "-------------------------------------------\n\n");
+         Attivita a = ottieni_attivita(c, i);
+
+         fprintf(file, "Attività %d\n", i);
+
+         fprintf(file, "Descrizione    : %s\n", a.descrizione);
+
+         fprintf(file, "Corso          : %s\n", a.corso);
+
+         fprintf(file, "Scadenza       : %s\n", a.data_di_scadenza);
+
+         fprintf(file, "Tempo stimato  : %d ore\n", a.tempo_stimato);
+
+         fprintf(file, "Priorita'      : %s\n",  (a.importanza == ALTA) ? "ALTA" : (a.importanza == MEDIA) ? "MEDIA" : "BASSA");
+
+         fprintf(file, "Stato          : %s\n", (a.stato == IN_RITARDO) ? "In Ritardo" : (a.stato == COMPLETATA) ? "Completata" : "In Corso");
+
+         fprintf(file, "Progresso      : %d%%\n", a.progresso);
+
+         fprintf(file, "Data Completamento : %s\n", (a.data_completamento[0] ? a.data_completamento : "Non disponibile"));
+
+         fprintf(file, "-------------------------------------------\n\n");
     }
-
     fclose(file);
+
     return 1;
 }
 
@@ -98,13 +117,16 @@ int salvataggio_su_file(const char *nome_file, PCoda c) {
 int caricamento_da_file(const char *nome_file, PCoda c) {
 
     FILE *file = fopen(nome_file, "r");
+
     if (!file) {
-        return 0;   
+
+        return 0;
     }
 
-    char buffer[256];  //Buffer per leggere le righe dal file
+    char buffer[256];
 
     Attivita a;
+
 
     fgets(buffer, sizeof(buffer), file);
     fgets(buffer, sizeof(buffer), file);
@@ -112,8 +134,7 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
 
     while (fgets(buffer, sizeof(buffer), file)) {
 
-      
-        if (buffer[0] == '-' || strlen(buffer) <= 1)        //Salta le righe di separazione oppure vuote
+        if (buffer[0] == '-' || strlen(buffer) <= 1)
             continue;
 
         
@@ -121,23 +142,22 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         strcpy(a.descrizione, buffer + 17);
         a.descrizione[strcspn(a.descrizione, "\n")] = '\0';
 
+       
         fgets(buffer, sizeof(buffer), file);
         strcpy(a.corso, buffer + 17);
         a.corso[strcspn(a.corso, "\n")] = '\0';
 
+       
         fgets(buffer, sizeof(buffer), file);
         strcpy(a.data_di_scadenza, buffer + 17);
         a.data_di_scadenza[strcspn(a.data_di_scadenza, "\n")] = '\0';
 
+        
         fgets(buffer, sizeof(buffer), file);
+        a.tempo_stimato = atoi(buffer + 17);
 
-        a.tempo_stimato = atoi(buffer + 17);        
-
+       
         fgets(buffer, sizeof(buffer), file);
-
-
-        //Legge la priorità e la collega al corrispettivo enumerativo
-
         if (strcmp(buffer + 17, "ALTA\n") == 0)
             a.importanza = ALTA;
 
@@ -147,6 +167,7 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         else
             a.importanza = BASSA;
 
+       
         fgets(buffer, sizeof(buffer), file);
 
         if (strcmp(buffer + 17, "In Ritardo\n") == 0)
@@ -158,31 +179,32 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         else
             a.stato = IN_CORSO;
 
+       
         fgets(buffer, sizeof(buffer), file);
 
         int prog;
 
         sscanf(buffer + 17, "%d", &prog);
 
-        a.progresso = prog;          //Legge la percentuale di progresso
-        
-        
+        a.progresso = prog;
+
+       
         fgets(buffer, sizeof(buffer), file);
 
         if(strlen(buffer) > 21) {
-        strcpy(a.data_completamento, buffer + 21);
 
-      
-         a.data_completamento[strcspn(a.data_completamento, "\n")] = '\0';
+            strcpy(a.data_completamento, buffer + 21);
 
-        } 
-          else {
-        strcpy(a.data_completamento, "Non disponibile");        //Se non è presente una data di completamento, imposta il campo a 'Non disponibile'
+            a.data_completamento[strcspn(a.data_completamento, "\n")] = '\0';
+
+        } else {
+
+            strcpy(a.data_completamento, "Non disponibile");
         }
 
-        inserisci(c, a);     //Inserisce l'attività nella coda 
+        inserisci(c, a);
     }
-
     fclose(file);
+
     return 1;
 }

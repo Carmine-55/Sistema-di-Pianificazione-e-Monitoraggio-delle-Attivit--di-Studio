@@ -1,6 +1,9 @@
 #ifndef FUNZIONI_FILE_H
 #define FUNZIONI_FILE_H
+
 #include "coda_priorita.h"
+
+
 
 /* FUNZIONI RELATIVE AI FILE */
 
@@ -28,9 +31,12 @@
 
 - Effetti collaterali: Crea oppure sovrascrive il file sul disco           
 
+
 */
 
+
 int salvataggio_su_file(const char *nome_file, PCoda c);
+
 
 
 /* ----------------------------------------------------------------
@@ -58,6 +64,7 @@ int salvataggio_su_file(const char *nome_file, PCoda c);
 - Effetti collaterali: Modifica la struttura di tipo Pcoda           
 
 */
+
 
 int caricamento_da_file(const char *nome_file, PCoda c);
 

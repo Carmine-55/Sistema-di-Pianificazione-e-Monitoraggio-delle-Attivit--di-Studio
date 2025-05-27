@@ -6,10 +6,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "item.h"
 #include "coda_priorita.h"
 #include "funzioni_file.h"
-#include <time.h>
+
 #define NOME_FILE "attivita'.txt"
 
 
@@ -38,7 +40,9 @@
 
 */
 
+
 void pulisci_schermo(){
+
     #ifdef _WIN32
        system("cls");   // Per Windows
     #else
@@ -46,21 +50,21 @@ void pulisci_schermo(){
     #endif      
 }
 
-
 int main() {
+
     PCoda c = nuova_PC();
     
-    
-    if (!caricamento_da_file(NOME_FILE, c)) {     //Carica i dati presenti in 'attività.txt. Se fallisce inizializza il salvataggio
+    if (!caricamento_da_file(NOME_FILE, c)) {
 
         printf("ERRORE DURANTE IL CARICAMENTO DEI FILE!\nCREAZIONE DI UN NUOVO FILE...\n");
+
         salvataggio_su_file(NOME_FILE, c);
     }
 
     int scelta;
+
     do {
         pulisci_schermo();
-
         printf("===========================================\n");
         printf("   BENVENUTO NEL PROGRAMMA DI GESTIONE\n");
         printf("      DELLE ATTIVITA' DI STUDIO!\n");
@@ -78,17 +82,19 @@ int main() {
         printf("9. ESCI DAL PROGRAMMA\n");
         printf("===========================================\n");
         printf("SCELTA: ");
+
         scanf("%d", &scelta);
 
-        getchar();        //Consuma il carattere di newline residuo
+        getchar();          // Consuma il carattere di newline residuo
 
         switch (scelta) {
 
-            case 1:       //Aggiunta di una nuova attività
-                
+            case 1: {       //Aggiunta di una nuova attività
+
                 Attivita nuova;
-            
+
                 if (aggiungi_attivita(&nuova)) {
+
                     inserisci(c, nuova);
                     salvataggio_su_file(NOME_FILE, c);
 
@@ -97,102 +103,125 @@ int main() {
                 }
 
                 break;
-            
-
-            case 2:        //Modifica un'attività esistente
+            }
+            case 2: {         //Modifica un'attività esistente
 
                 if (vuota_PC(c)) {
+
                     printf("\nNON E' PRESENTE NESSUNA ATTIVITA' DA MODIFICARE\n");
 
                 } else {
 
                     int indice;
 
-                    printf("\nINSERISCI L'INDICE DELL'ATTIVITA' DA MODIFICARE (1-%d): ", c->num_elementi);
+                    printf("\nINSERISCI L'INDICE DELL'ATTIVITA' DA MODIFICARE (1-%d): ", ottieni_numero_attivita(c));
+
                     scanf("%d", &indice);
+
                     getchar();
 
-                    if (indice < 1 || indice > c->num_elementi) {
+                    if (indice < 1 || indice > ottieni_numero_attivita(c)) {
+
                         printf("L'INDICE INSERITO NON E' VALIDO!\n");
 
                     } else {
-                        modifica_attivita(&c->vet[indice]);
+
+                        Attivita* ptr = ottieni_attivita_puntatore(c, indice);
+                        modifica_attivita(ptr);
                         salvataggio_su_file(NOME_FILE, c);
                     }
-                
+                }
+
                 break;
             }
 
-            case 3:    //Elimina un'attività esistente
+
+            case 3: {        //Elimina un'attività esistente
 
                 elimina_attivita(c);
                 salvataggio_su_file(NOME_FILE, c);
                 break;
+            }
 
-            case 4:     //Aggiorna il progresso di un'attività 
+            case 4: {        //Aggiorna il progresso di un'attività 
 
                 if (vuota_PC(c)) {
+
                     printf("\nNON E' PRESENTE NESSUNA ATTIVITA' DA AGGIORNARE\n");
 
                 } else {
 
                     int indice;
 
-                    printf("\nINSERISCI L'INDICE DELL'ATTIVITA' DA AGGIORNARE (1-%d): ", c->num_elementi);
+                    printf("\nINSERISCI L'INDICE DELL'ATTIVITA' DA AGGIORNARE (1-%d): ", ottieni_numero_attivita(c));
                     scanf("%d", &indice);
                     getchar();
 
-                    if (indice < 1 || indice > c->num_elementi) {
+                    if (indice < 1 || indice > ottieni_numero_attivita(c)) {
+
                         printf("L'INDICE INSERITO NON E' VALIDO!\n");
 
                     } else {
-                        aggiorna_progresso_attivita(&c->vet[indice]);
+
+                        Attivita* ptr = ottieni_attivita_puntatore(c, indice);
+                        aggiorna_progresso_attivita(ptr);
                         salvataggio_su_file(NOME_FILE, c);
                     }
                 }
 
                 break;
-            
-            case 5:      //Visualizza progresso
+            }
+
+
+            case 5: {        //Visualizza progresso
 
                 mostra_progresso(c);
                 break;
+            }
 
-            case 6:      //Generazione di un report settimanale
+            case 6: {        //Generazione del report settimanale
 
                 genera_report_settimanale(c);
                 break;
+            }
 
-            case 7:      //Mostra l'attività con priorità massima
+            case 7: {        //Mostra l'attività con priorità massima
 
                 Attivita max = ottieni_max(c);
                 mostra_attivita(&max);
                 break;
+            }
 
-            case 8:      //Visualizzazione notifica di un'attività in ritardo
+            case 8: {        //Visualizza notifica di un'attività in ritardo
 
                 mostra_notifiche(c);
                 break;
+            }
 
-            case 9:      //Uscita dall'applicazione
+            case 9: {        //Uscita dall'applicazione
 
                 printf("USCITA IN CORSO...\n");
                 printf("PREMI INVIO PER USCIRE DALL'APP...");
+
                 while(getchar() != '\n');
                 break;
+            }
 
-            default:     //Errore in caso di scelta non valida
+            default: {        //Errore in caso di scelta non valida
 
                 printf("LA SCELTA NON E' VALIDA!\n");
+            }
         }
-
+        
         if (scelta != 9) {
+
             printf("\nPREMI INVIO PER TORNARE AL MENU' PRINCIPALE...\n");
             while(getchar() != '\n');
         }
         
     } while (scelta != 9);
-
+    
     free(c);
+
     return 0;
 }

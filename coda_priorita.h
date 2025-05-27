@@ -3,12 +3,9 @@
 
 #include "item.h"
 
-#define MAX_HEAP 50
+typedef struct CodaPriorita CodaPriorita;
+typedef CodaPriorita* PCoda;
 
-typedef struct {
-    Attivita vet[MAX_HEAP];         //Array di attività memorizzate nell'heap
-    int num_elementi;               //Numero di elementi nella coda
-} CodaPriorita, *PCoda;
 
 
 /* FUNZIONI RELATIVE ALLA CODA A PRIORITA' */
@@ -40,6 +37,8 @@ typedef struct {
 PCoda nuova_PC(void);
 
 
+
+
 /* ----------------------------------------------------------------
 
 - Funzione: vuota_PC
@@ -65,7 +64,10 @@ PCoda nuova_PC(void);
 
 */
 
+
+
 int vuota_PC(PCoda c);
+
 
 
 /* ----------------------------------------------------------------
@@ -96,6 +98,7 @@ int vuota_PC(PCoda c);
 int inserisci(PCoda c, Attivita nuovaAttivita);
 
 
+
 /* ----------------------------------------------------------------
 
 -Funzione: ottieni_max
@@ -119,6 +122,8 @@ int inserisci(PCoda c, Attivita nuovaAttivita);
 - Effetti collaterali: (Nessuno)
 
 */
+
+
 
 Attivita ottieni_max(PCoda c);
 
@@ -146,7 +151,9 @@ Attivita ottieni_max(PCoda c);
 
 */
 
+
 void mostra_progresso(PCoda c);
+
 
 
 /* ----------------------------------------------------------------
@@ -173,7 +180,10 @@ void mostra_progresso(PCoda c);
 
 */
 
+
+
 void genera_report_settimanale(PCoda c);
+
 
 
 /* ----------------------------------------------------------------
@@ -200,6 +210,8 @@ void genera_report_settimanale(PCoda c);
 - Effetti collaterali: Modifica la struttura di tipo PCoda
 
 */
+
+
 
 void elimina_attivita(PCoda c);
 
@@ -230,7 +242,99 @@ void elimina_attivita(PCoda c);
 
 */
 
+
 void mostra_notifiche(PCoda c);
+
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: ottieni_numero_attivita
+
+- Restituisce il numero di attività presenti nella coda
+
+- Specifica sintattica:  int ottieni_numero_attivita(PCoda) -> int
+
+- Parametri: 
+             c: PCoda
+
+- Specifica semantica:  ottieni_numero_attivita(c) -> int
+
+- Pre-Condizioni:  La coda deve essere inizializzata (anche se vuota)
+
+- Post-Condizioni:  Viene restituito il numero di attività contenute nella coda
+                    Altrimenti, se la coda è NULL 0
+
+- Ritorna:  Un intero che rappresenta il numero di elementi nella coda
+
+- Effetti collaterali: (Nessuno)
+
+
+*/
+
+
+int ottieni_numero_attivita(PCoda c);
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: ottieni_attivita
+
+- Restituisce una copia dell'attività presente nella coda in corrispondenza dell'indice
+  che è stato fornito
+
+
+- Specifica sintattica:  Attivita ottieni_attivita(PCoda, int) -> Attivita
+
+- Parametri:
+             c: PCoda
+             indice: int
+
+- Specifica semantica:  ottieni_attivita(c, indice) -> Attivita
+
+- Pre-Condizioni: La coda deve essere inizializzata e l'indice deve essere compreso tra 1 e il numero di elementi
+
+- Post-Condizioni: Viene restituita una copia corretta dell'attività se l'indice è valido,
+                   oppure un'attività vuota se l'indice non è valido
+
+- Ritorna:  Un oggetto di tipo Attivita contenente i dati dell'attività richiesta oppure un oggetto "vuoto"
+
+- Effetti collaterali: (Nessuno)
+
+*/
+
+
+Attivita ottieni_attivita(PCoda c, int indice);
+
+
+/* ----------------------------------------------------------------
+
+- Funzione: ottieni_attivita_puntatore
+
+- Restituisce il puntatore all'attività presente nella coda in corrispondenza dell'indice fornito,
+  consentendo di modificarla direttamente
+
+- Specifica sintattica: 
+
+- Parametri:  c: PCoda
+              indice: int
+
+- Specifica semantica:  ottieni_attivita_puntatore(c, indice) -> Attivita*
+
+- Pre-Condizioni: La coda deve essere inizializzata e l'indice deve essere compreso tra 1 e il numero totale di elementi
+
+- Post-Condizioni:  Viene restituito un puntatore valido all'attività se l'indice è corretto
+                     Altrimenti NULL se l'indice non è valido
+
+- Ritorna: Un puntatore all'elemento di tipo 'Attivita' richiesto oppure NULL in caso di indice non valido
+
+- Effetti collaterali:  (Nessuno)
+
+*/
+
+
+Attivita* ottieni_attivita_puntatore(PCoda c, int indice);
+
 
 #endif
 

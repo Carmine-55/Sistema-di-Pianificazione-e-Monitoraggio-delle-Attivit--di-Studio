@@ -2,16 +2,17 @@
 #define ITEM_H
 
 typedef enum {
-     BASSA = 1,
-     MEDIA = 2,
-     ALTA = 3 
-    } Priorita;
+    BASSA = 1,
+    MEDIA = 2,
+    ALTA = 3
+} Priorita;
 
 typedef enum {
-     IN_CORSO,
-     COMPLETATA,
-     IN_RITARDO 
-    } Stato;
+    IN_CORSO,
+    COMPLETATA,
+    IN_RITARDO
+} Stato;
+
 
 typedef struct {
     char descrizione[100];          //Descrizione dell'attività (max 100 caratteri)
@@ -23,6 +24,9 @@ typedef struct {
     int progresso;                  //Percentuale di completamento (0-100)
     char data_completamento[16];    //Il formato sarà sempre GG/MM/AAAA
 } Attivita;
+
+
+
 
 /* FUNZIONE RELATIVE ALLE ATTIVITA' */
 
@@ -51,6 +55,8 @@ typedef struct {
 
 */
 
+
+
 int aggiungi_attivita(Attivita *a);
 
 
@@ -77,7 +83,9 @@ int aggiungi_attivita(Attivita *a);
 
 */
 
+
 void modifica_attivita(Attivita *a);
+
 
 
 /* ----------------------------------------------------------------
@@ -104,6 +112,7 @@ void modifica_attivita(Attivita *a);
 - Effetti collaterali: (Nessuno)
 
 */
+
 
 int verifica_ritardo(const char *data_di_scadenza);
 
@@ -132,7 +141,9 @@ int verifica_ritardo(const char *data_di_scadenza);
 
 */
 
+
 void mostra_attivita(const Attivita *a);
+
 
 
 /* ----------------------------------------------------------------

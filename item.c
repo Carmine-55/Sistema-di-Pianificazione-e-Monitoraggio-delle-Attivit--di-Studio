@@ -5,6 +5,7 @@
 #include "item.h"
 
 
+
 /* FUNZIONE RELATIVE ALLE ATTIVITA' */
 
 /* ----------------------------------------------------------------
@@ -31,6 +32,7 @@
 - Effetti collaterali: Modifica il contenuto dell'oggetto 'Attivita'           
 
 */
+
 
 
 int aggiungi_attivita(Attivita *a) {
@@ -280,6 +282,7 @@ int verifica_ritardo(const char *data_di_scadenza) {
 */
 
 
+
 void mostra_attivita(const Attivita *a) {
 
     printf("===========================================\n");
@@ -331,6 +334,7 @@ void mostra_attivita(const Attivita *a) {
 - Effetti collaterali: Modifica l'oggetto di tipo 'Attivita'
 
 */
+
 
 
 void aggiorna_progresso_attivita(Attivita *a) {
