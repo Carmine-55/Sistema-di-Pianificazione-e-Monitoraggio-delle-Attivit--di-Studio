@@ -222,3 +222,57 @@ Case 9: (Uscita dal programma)
 - Visualizza un messaggio d'uscita
 - Termina l'esecuzione del programma e libera la memoria allocata
 
+
+
+
+
+
+--- FUNZIONI RELATIVE AL TESTING ---
+
+- test_aggiungi_attivita(void) -> void                Simula la creazione di un nuovo elemento di tipo Attivita, e verifica che i valori inizializzati corrispondano all'oracolo atteso
+- test_aggiorna_progresso(void) -> void               Simula l'aggiornamento del progresso di un’attività esistente, passando da un valore iniziale pari a 0 a un aggiornamento al 100%
+                                                      Imposta il relativo stato a COMPLETATA e registra la data di completamento
+
+- test_report_settimanale(void) -> void               Simula la generazione di un report settimanale, che raggruppa le attività per stato in base alla data corrente
+                                                      Verifica che il report legga correttamente i conteggi per le attività completate, in corso, o in ritardo
+
+
+
+--- PSEUDOCODICE TEST_MAIN.C ---
+
+All'avvio:
+1. Il programma apre i file "test_input.txt", "test_oracle.txt" e "test_output.txt"
+2. In caso d'errore, visualizzi un messaggio che lo notifica e terminerà l'esecuzione del programma
+
+
+- Apertura del menù di testing:
+
+- Scelte disponibili nel menù (implementate tramite uno switch):
+
+1. Test (Aggiungi attività)
+2. Test (Aggiorna progresso)
+3. Test (Genera report settimanale)
+0. Esci dai test
+
+
+Case 1: (Test Aggiungi attività)
+
+- Carica il risultato del test su file
+- Visualizza esito test su terminale
+- Premi INVIO per tornare al menù principale
+
+Case 2: (Test Aggiorna Progresso): 
+
+- Carica il risultato del test su file
+- Visualizza esito test su terminale
+- Premi INVIO per tornare al menù principale
+
+Case 3: (Test Genera report settimanale)
+
+- Carica il risultato del test su file
+- Visualizza esito test su terminale
+- Premi INVIO per tornare al menù principale
+
+Case 0: (Uscita dal programma di testing)
+
+- Esci dall'programma di testing
