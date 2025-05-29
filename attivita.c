@@ -5,9 +5,6 @@
 #include "attivita.h"
 
 
-
-/* FUNZIONE RELATIVE ALLE ATTIVITA' */
-
 /* ----------------------------------------------------------------
 
 - Funzione: aggiungi_attivita
@@ -32,8 +29,6 @@
 - Effetti collaterali: Modifica il contenuto dell'oggetto 'Attivita'           
 
 */
-
-
 
 int aggiungi_attivita(Attivita *a) {
 
@@ -155,7 +150,6 @@ int aggiungi_attivita(Attivita *a) {
 
 */
 
-
 void modifica_attivita(Attivita *a) {
 
     printf("===========================================\n");
@@ -208,7 +202,6 @@ void modifica_attivita(Attivita *a) {
 }
 
 
-
 /* ----------------------------------------------------------------
 
 - Funzione: verifica_ritardo
@@ -256,7 +249,6 @@ int verifica_ritardo(const char *data_di_scadenza) {
 }
 
 
-
 /* ----------------------------------------------------------------
 
 - Funzione: mostra_attivita
@@ -280,7 +272,6 @@ int verifica_ritardo(const char *data_di_scadenza) {
 - Effetti collaterali: Stampa l'output a schermo
 
 */
-
 
 
 void mostra_attivita(const Attivita *a) {
@@ -334,7 +325,6 @@ void mostra_attivita(const Attivita *a) {
 - Effetti collaterali: Modifica l'oggetto di tipo 'Attivita'
 
 */
-
 
 
 void aggiorna_progresso_attivita(Attivita *a) {

@@ -54,7 +54,7 @@ int salvataggio_su_file(const char *nome_file, PCoda c) {
     fprintf(file, "===========================================\n\n");
 
 
-    int n = ottieni_numero_attivita(c);   //Ottiene il numero totale di attività presenti nella coda
+    int n = ottieni_numero_attivita(c);     //Ottiene il numero totale di attività presenti nella coda
 
     for (int i = 1; i <= n; i++) {
 
@@ -74,12 +74,12 @@ int salvataggio_su_file(const char *nome_file, PCoda c) {
 
          fprintf(file, "Stato          : %s\n", (a.stato == IN_RITARDO) ? "In Ritardo" : (a.stato == COMPLETATA) ? "Completata" : "In Corso");
 
-         fprintf(file, "Progresso      : %d%%\n", a.progresso);     //Stampa il progresso nell'attività come percentuale
+         fprintf(file, "Progresso      : %d%%\n", a.progresso);      //Stampa il progresso nell'attività come percentuale
 
 
-         //Verifica se è disponibile una data di completamento, in caso contrario, stampa un valore di default 
+        //Verifica se è disponibile una data di completamento, in caso contrario, stampa un valore di default 
 
-         fprintf(file, "Data Completamento : %s\n", (a.data_completamento[0] ? a.data_completamento : "Non disponibile"));    
+         fprintf(file, "Data Completamento : %s\n", (a.data_completamento[0] ? a.data_completamento : "Non disponibile"));
 
          fprintf(file, "-------------------------------------------\n\n");
     }
@@ -126,7 +126,7 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         return 0;
     }
 
-    char buffer[256];     //Buffer che serve a leggere le righe dal file
+    char buffer[256];        //Buffer che serve a leggere le righe dal file
 
     Attivita a;
 
@@ -139,13 +139,13 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
 
     while (fgets(buffer, sizeof(buffer), file)) {
 
-        if (buffer[0] == '-' || strlen(buffer) <= 1)     //Se la riga corrente è un separatore o è troppo corta, la salta per non leggerla come dato utile
+        if (buffer[0] == '-' || strlen(buffer) <= 1)        //Se la riga corrente è un separatore o è troppo corta, la salta per non leggerla come dato utile
             continue;
 
         
         fgets(buffer, sizeof(buffer), file);
         strcpy(a.descrizione, buffer + 17);
-        a.descrizione[strcspn(a.descrizione, "\n")] = '\0';    //Rimuove il carattere di newline in eccesso per pulire la stringa
+        a.descrizione[strcspn(a.descrizione, "\n")] = '\0';         //Rimuove il carattere di newline in eccesso per pulire la stringa
 
        
         fgets(buffer, sizeof(buffer), file);
@@ -157,9 +157,9 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
         strcpy(a.data_di_scadenza, buffer + 17);
         a.data_di_scadenza[strcspn(a.data_di_scadenza, "\n")] = '\0';
 
-
-        fgets(buffer, sizeof(buffer), file);       //Legge il "Tempo stimato" come stringa
-        a.tempo_stimato = atoi(buffer + 17);       //Lo converte in intero  
+        
+        fgets(buffer, sizeof(buffer), file);     //Legge il "Tempo stimato" come stringa
+        a.tempo_stimato = atoi(buffer + 17);     //Lo converte in intero
 
        
         fgets(buffer, sizeof(buffer), file);
@@ -195,6 +195,7 @@ int caricamento_da_file(const char *nome_file, PCoda c) {
 
        
         fgets(buffer, sizeof(buffer), file);
+
 
 
         //Se la riga contiene più di 21 caratteri, copio il valore, altrimenti, imposto il campo a "Non disponibile"

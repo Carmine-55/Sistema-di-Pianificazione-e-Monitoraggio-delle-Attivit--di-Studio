@@ -15,6 +15,7 @@ struct CodaPriorita {
 };
 
 
+
 /* ----------------------------------------------------------------
 
 - Funzione: nuova_PC
@@ -52,7 +53,6 @@ PCoda nuova_PC(void) {
 }
 
 
-
 /* ----------------------------------------------------------------
 
 - Funzione: vuota_PC
@@ -85,7 +85,6 @@ int vuota_PC(PCoda c) {
 }
 
 
-
 /* ----------------------------------------------------------------
 
 - Funzione: inserisci
@@ -115,8 +114,6 @@ int vuota_PC(PCoda c) {
 int inserisci(PCoda c, Attivita nuovaAttivita) {
 
     if (!c || c->num_elementi >= MAX_HEAP)
-
-    printf("ERRORE! NON PUOI AGGIUNGERE ALTRI ELEMENTI, IL MAX-HEAP E' PIENO...");
 
     return 0;
 
@@ -148,6 +145,7 @@ int inserisci(PCoda c, Attivita nuovaAttivita) {
 }
 
 
+
 /* ----------------------------------------------------------------
 
 -Funzione: ottieni_max
@@ -171,7 +169,6 @@ int inserisci(PCoda c, Attivita nuovaAttivita) {
 - Effetti collaterali: (Nessuno)
 
 */
-
 
 
 Attivita ottieni_max(PCoda c) {
@@ -210,7 +207,6 @@ Attivita ottieni_max(PCoda c) {
 */
 
 
-
 void mostra_progresso(PCoda c) {
 
     if (vuota_PC(c)) {
@@ -244,8 +240,6 @@ void mostra_progresso(PCoda c) {
     printf("\n");
 }
 
-
-
 /* ----------------------------------------------------------------
 
 - Funzione: genera_report_settimanale
@@ -269,7 +263,6 @@ void mostra_progresso(PCoda c) {
 - Effetti collaterali: Stampa l'output a schermo
 
 */
-
 
 
 void genera_report_settimanale(PCoda c) {
@@ -401,8 +394,6 @@ void genera_report_settimanale(PCoda c) {
 
 */
 
-
-
 void elimina_attivita(PCoda c) {
 
     if (vuota_PC(c)) {
@@ -509,7 +500,6 @@ void elimina_attivita(PCoda c) {
 */
 
 
-
 void mostra_notifiche(PCoda c) {  
 
     int notificaPresente = 0;
@@ -543,7 +533,6 @@ void mostra_notifiche(PCoda c) {
 
 
 
-
 /* ----------------------------------------------------------------
 
 - Funzione: ottieni_numero_attivita
@@ -570,15 +559,10 @@ void mostra_notifiche(PCoda c) {
 */
 
 
-
-
 int ottieni_numero_attivita(PCoda c) {
 
     return (c) ? c->num_elementi : 0;
 }
-
-
-
 
 
 /* ----------------------------------------------------------------
@@ -595,7 +579,7 @@ int ottieni_numero_attivita(PCoda c) {
              c: PCoda
              indice: int
 
-- Specifica sintattica:  ottieni_attivita(c, indice) -> Attivita
+- Specifica semantica:  ottieni_attivita(c, indice) -> Attivita
 
 - Pre-Condizioni: La coda deve essere inizializzata e l'indice deve essere compreso tra 1 e il numero di elementi
 
@@ -607,8 +591,6 @@ int ottieni_numero_attivita(PCoda c) {
 - Effetti collaterali: (Nessuno)
 
 */
-
-
 
 Attivita ottieni_attivita(PCoda c, int indice) {
 
@@ -647,7 +629,6 @@ Attivita ottieni_attivita(PCoda c, int indice) {
 - Effetti collaterali:  (Nessuno)
 
 */
-
 
 
 Attivita* ottieni_attivita_puntatore(PCoda c, int indice) {
