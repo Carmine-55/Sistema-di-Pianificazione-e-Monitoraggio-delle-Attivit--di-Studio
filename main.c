@@ -1,7 +1,7 @@
 /* AVVISO!: Nel codice sono stati utilizzati e implementati
             comandi 'system' per ottenere una pulizia ottimale
             del terminale. Essi potrebbero creare conflitti o 
-            bug di varia natura. "Eliminarli" se presenti. */
+            bug di varia natura. "Elimnarli" se presenti. */
 
 
 #include <stdio.h>
