@@ -146,7 +146,7 @@ int aggiungi_attivita(Attivita *a) {
 
 - Ritorna: (Nessun valore)
 
-- Effetti collaterali: Modifica l'oggetto di tipo Attivita
+- Effetti collaterali: Modifica l'oggetto di tipo 'Attivita'
 
 */
 
