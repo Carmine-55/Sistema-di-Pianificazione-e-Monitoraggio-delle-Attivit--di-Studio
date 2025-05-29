@@ -61,7 +61,7 @@ int salvataggio_su_file(const char *nome_file, PCoda c);
 - Ritorna: 1 se il caricamento ha avuto successo
            0 altrimenti
 
-- Effetti collaterali: Modifica la struttura di tipo Pcoda           
+- Effetti collaterali: Modifica la struttura di tipo CodaPriorita           
 
 */
 

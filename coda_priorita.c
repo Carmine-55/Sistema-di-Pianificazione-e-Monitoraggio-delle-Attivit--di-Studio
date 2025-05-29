@@ -612,7 +612,7 @@ Attivita ottieni_attivita(PCoda c, int indice) {
 - Restituisce il puntatore all'attività presente nella coda in corrispondenza dell'indice fornito,
   consentendo di modificarla direttamente
 
-- Specifica sintattica: Attivita* ottieni_attivita_puntatore(PCoda c, int indice)
+- Specifica sintattica: 
 
 - Parametri:  c: PCoda
               indice: int
