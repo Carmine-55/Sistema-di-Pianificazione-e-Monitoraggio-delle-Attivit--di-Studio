@@ -1,278 +1,93 @@
---- ADT CODA CODA A PRIORITA' ---
+# Gestione attività di studio - Sistema di pianificazione delle attività
 
- struct CodaPriorita{
+## Descrizione del programma
+Il progetto **Gestione attività di studio** è un sistema sviluppato interamente in linguaggio C, il cui scopo principale è la gestione delle attività di studio. L’applicazione permette di inserire, modificare, eliminare e aggiornare il progresso delle attività, oltre a generare report settimanali e notificare le attività in ritardo. Inoltre per garantire una gestione efficiente, il sistema sfrutta una coda di priorità implementata come max-heap, la quale organizza le attività in base al loro livello di importanza **(Priorità)**
 
-    Vettore:              Array di 'Attivita    // Array di attività memorizzate nell'heap
-    Numero di elementi:   Intero                // Numero di elementi nella coda
-    
-};
+## Caratteristiche 
 
+* **Gestione delle attività**: 
+ 1. Inserimento di nuove attività con raccolta dati quali descrizione, nome del corso, data di scadenza, tempo stimato, priorità e stato
+ 2. Modifica dei dati di una attività esistente
+ 3. Eliminazione delle attività selezionate (In base alla descrizione)
 
+* **Monitoraggio e Aggiornamento del progresso**:
+ 1. Aggiornamento dinamico del progresso (in percentuale) per ogni attività
+ 2. Modifica automatica dello stato dell’attività (IN RITARDO, IN CORSO, COMPLETATA) in base alla data di scadenza e al progresso
 
+* **Reportistica e notifiche**:
+ 1. Generazione di report settimanali con riepilogo delle attività completate, in corso e in ritardo
+ 2. Visualizzazione di notifiche per le attività in ritardo
 
---- FUNZIONI RELATIVE ALLA CODA A PRIORITA' ---
+* **Permanenza dei dati**
+ 1. Salvataggio su file di testo delle attività, tramite un formato strutturato (intestazioni e separatori) per garantire una facile consultazione
+ 2. Caricamento dei dati salvati solo nel momento dell’avvio dell’applicazione
 
-- nuova_PC() -> PCoda                                       Crea e inizializza dinamicamente una nuova coda a priorità.
+* **Interfaccia**:
+ 1. Menù interattivo che rende molto semplice l'utilizzo del sistema
 
-- inserisci(PCoda c, Attivita nuovaAttivita) -> int         Inserisce una nuova attività nella coda, mantenendo le proprietà del max-heap basate sull’importanza (priorità) 
 
-- ottieni_max(PCoda c) -> Attivita                          Restituisce l’attività con la più alta priorità, quella situata in cima al max-heap
+## Sistema di utilizzo
 
-- elimina_attivita(PCoda c) -> void                         Rimuove un'attività dalla coda in base alla descrizione fornita dall’utente, aggiornando l’ordinamento del max-heap
+* **Avvio dell’applicazione**:
 
-- mostra_progresso(PCoda c) -> void                         Visualizza in output lo stato di avanzamento di tutte le attività presenti nella coda
+1. Al lancio, il programma tenta di caricare le attività salvate da un file (attivita'.txt). Se il file non esiste o il caricamento fallisce, viene creato un nuovo file di salvataggio
+2. L’utente viene guidato attraverso una schermata iniziale che, tramite la funzione pulisci_schermo(), garantisce un’interfaccia ordinata
 
-- genera_report_settimanale(PCoda c) -> void                Genera un report settimanale analizzando le attività che rientrano nel range della settimana corrente
+* **Menù principale**:
 
-- mostra_notifiche(PCoda c) -> void                         Visualizza le notifiche relative alle attività in ritardo
+ Dopo il caricamento, il menù principale presenta le seguenti opzioni:
 
-- ottieni_numero_attivita(c) -> int                         Restituisce il numero di attività presenti nella coda
+**1. Aggiungi Attività**:
+* Inserisci i dati richiesti (descrizione, nome del corso, data di scadenza, tempo stimato, priorità)
+* Il sistema determina automaticamente lo stato dell’attività confrontando la data di scadenza con la data corrente
 
-- ottieni_attivita(c, indice) -> Attivita                   Restituisce una copia dell'attività presente nella coda in corrispondenza dell'indice che è stato fornito 
-  
--  ottieni_attivita_puntatore(c, indice) -> Attivita*       Restituisce il puntatore all'attività presente nella coda in corrispondenza dell'indice fornito,consentendo di modificarla direttamente
-  
+**2. Modifica Attività**:
+* Inserisci l’indice dell’attività da modificare
+* Aggiorna i dati desiderati (descrizione, corso, data di scadenza, tempo stimato, priorità)
 
+**3. Elimina Attività**:
+* Rimuove un'attività in base alla descrizione fornita
+* La struttura dati viene aggiornata per mantenere la proprietà del max-heap
 
+**4. Aggiorna Progresso dell’attività**:
+* Seleziona l’attività tramite indice e inserisci la nuova percentuale di progresso (da 0 a 100)
+* Se il progresso raggiunge il 100%, lo stato viene automaticamente impostato a COMPLETATA e viene registrata la data di completamento
 
+**5. Visualizza Progresso**:
+*Mostra un riepilogo dettagliato di tutte le attività, inclusi descrizione, corso, scadenza, tempo stimato, priorità, stato e progresso
 
---- ADT ATTIVITA' ---
+**6. Genera Report Settimanale**:
+* Il sistema elabora le attività in base alla data e genera un report che suddivide le attività in COMPLETATE, IN CORSO e IN RITARDO, fornendo un riepilogo settimanale
 
-typedef struct {
+**7. Ottieni l’attività con massima priorità**:
+* Visualizza l’attività in cima alla coda (ossia quella con il maggior grado di importanza)
 
-    Descrizione          : Stringa 
-    Corso                : Stringa 
-    Data di Scadenza     : Stringa (Formato GG/MM/AAAA)
-    Tempo Stimato        : Intero
-    Importanza           : Enumumerazione Priorita (BASSA = 1, MEDIA = 2, ALTA = 3)
-    Stato                : Enumerazione Stato (IN_RITARDO, IN_CORSO, COMPLETATA)
-    Progresso            : Intero (Percentuale da 0 a 100)
-    Data Completamento   : Stringa (Formato GG/MM/AAAA)
-    
-}Attivita; 
+**8. Mostra notifiche delle attività in ritardo**:
+* Evidenzia in output le attività che sono in ritardo rispetto alla data di scadenza
 
+**9. Uscita dal programma**:
+* Chiude l’applicazione dopo aver salvato tutte le modifiche su file
 
 
 
+## Struttura del progetto
 
---- FUNZIONE RELATIVE AD ATTIVITA' ---
+Il progetto è stato organizzato in moduli per mantenere il codice modulare e facilmente manutenibile:
 
-aggiungi_attivita(Attivita *a) -> int                   Raccoglie in input i dati necessari per creare una nuova attività, inizializza il progresso a 0 e determina lo stato (IN_CORSO o IN_RITARDO) in base al confronto della data di scadenza con la data corrente
+* **item.h / item.c** Definizione della struttura 'Attivita' e degli enumeratori per 'Priorità' e 'Stato'
 
-modifica_attivita(Attivita *a) -> void                  Permette di aggiornare i dati di una attività esistente, compresa la rivalutazione del suo stato in base a una nuova data di scadenza
+* **coda_priorita.h / coda_priorita.c** Implementazione della coda di priorità (max-heap) la quale gestisce l’ordinamento delle attività
 
-verifica_ritardo(const char *data_di_scadenza) -> int   Confronta la data di scadenza (formattata come "GG/MM/AAAA") con la data corrente per determinare se l’attività è in ritardo. Restituisce 1 se la data è antecedente a quella corrente, 0 altrimenti
+* **funzioni_file.h / funzioni_file.c** Funzioni per il salvataggio e il caricamento delle attività da file
 
-mostra_attivita(const Attivita *a) -> void              Visualizza in modo formattato tutti i dati relativi a un’attività, incluse le informazioni di avanzamento e di completamento, se disponibili
+## Utilizzo
 
-aggiorna_progresso_attivita(Attivita *a) -> void        Aggiorna la percentuale di completamento di un’attività. Se il progresso raggiunge il 100%, l’attività viene contrassegnata come COMPLETATA e viene registrata la data di completamento corrente
+1. Copia il link del repository
+2. Compila il progetto con i makefile forniti
+3. Usufruisci del programma
 
+## Autori 
 
+Il progetto è stato interamente sviluppato da **CarmineSaggese**
 
-
-
-
---- FUNZIONI RELATIVE AI FILE ---
-
-salvataggio_su_file(const char *nome_file, PCoda c) -> int         Salva l’elenco delle attività su un file di testo (il file viene creato o sovrascritto) usando un formato fisso
-
-caricamento_da_file(const char *nome_file, PCoda c) -> int         Carica le attività da un file di testo formattato secondo lo schema prestabilito e popola la coda a priorità
-
-
-
-
-
-
---- FUNZIONI RELATIVE ALL'INTERFACCIA UTENTE --- 
-
-- pulisci_schermo() -> void                             Pulisce il terminale utilizzando i comandi di sistema appropriati (cls per Windows, clear per Mac/Linux)
-
-
-
-
-
-
-
---- PSEUDOCODICE --- 
-
-- All'avvio:
-1. Il programma tenta di caricare le attività dal file esterno ("attivita'.txt")
-2. Se il caricamento fallisce, visualizzi un messaggio d'errore e viene creato un nuovo file di salvataggio
-
-- Apertura del menù principale:
-
--Scelte disponibili nel menù (implementate tramite uno switch):
-
-1. Aggiungi Attività
-2. Modifica Attività
-3. Elimina Attività
-4. Aggiorna il progresso dell’attività
-5. Visualizza il progresso delle attività
-6. Genera report settimanale
-7. Ottieni l’attività con massima priorità
-8. Mostra le notifiche delle attività in ritardo
-9. Uscita dal programma
-
-
-
-Case 1: (Aggiungi attività)
-
--Chiedi all'utente di inserire: 
-
-- Descrizione (Stringa, max 100 caratteri)
-- Nome del corso (Stringa, max 50 caratteri)
-- Data di scadenza (Stringa, formato "GG/MM/AAAA")
-- Tempo Stimato (Intero, in ore)
-- Priorità (Intero: 1 = BASSA, 2 = MEDIA, 3 = ALTA)
-
-- Verifica l’input (controlla i campi vuoti, il formato data, il range di valori), se errati stampa messaggio d'errore
-- Imposta il progresso a 0
-- Utilizza la funzione verifica_ritardo per determinare lo stato (IN_CORSO oppure IN_RITARDO) confrontando la data di scadenza con quella corrente
-- Inserisci la nuova attività nella coda a priorità
-- Salva la coda aggiornata sul file esterno
-- Visualizza un messaggio di conferma
-- Se premi INVIO torna al menù principale 
-
-
-
-Case 2: (Modifica attività)
-
-- Se non sono presenti attività, mostra un messaggio d’avviso. Se premi INVIO ritorna al menù principale
-- Altrimenti chiedi all'utente di inserire l’indice dell’attività che vuole modificare
-  
-
-- Richiedi i nuovi dati per:
-
-  
-- Descrizione
-- Nome del corso
-- Data di Scadenza (Formato "GG/MM/AAAA")
-- Tempo Stimato    (In ore)
-- Priorità         (Intero: 1 = BASSA, 2 = MEDIA, 3 = ALTA)
-
-- Rivaluta lo stato dell'attività in base alla nuova data inserita
-- Aggiorna l’attività selezionata nella coda
-- Salva le modifiche sul file esterno
-- Premi INVIO per tornare al menù principale
-
-
-
-Case 3: (Elimina attività)
-
-- Se la coda è vuota, visualizza un messaggio d’errore
-- Altrimenti, chiedi all'utente di fornire la descrizione dell’attività da eliminare
-- Rimuovi l’attività corrispondente dalla coda a priorità (aggiornando il max-heap)
-- Salva la coda modificata sul file esterno
-- Premi INVIO e torna al menù principale
-
-
-
-Case 4: (Aggiorna il progresso)
-
-- Se non ci sono attività, visualizza un messaggio d’avviso
-- Altrimenti, chiedi all'utente di inserire l’indice dell’attività che vuole aggiornare
-- Richiedi la nuova percentuale di progresso (da 0 a 100)
-- Se il progresso raggiunge 100, imposta lo stato a COMPLETATA e registra la data corrente come data di completamento
-- Aggiorna il progresso nella struttura dell’attività
-- Salva la coda aggiornata sul file esterno
-- Premi INVIO e torna al menù principale
-
-
-
-Case 5: (Visualizza progresso)
-
-- Stampa a schermo tutte le attività presenti nella coda, mostrando per ciascuna:
-
-- Descrizione 
-- Corso
-- Data di Scadenza (formato GG/MM/AAAA) 
-- Tempo Stimato    (In ore)
-- Priorità         (1 = BASSA, 2 = MEDIA, 3 = ALTA)
-- Stato            (IN_RITARDO, IN_CORSO, COMPLETATA)
-- Progresso        (0 a 100)
-- Data di Completamento  (Solo se presente)
-
-
-
-Case 6: (Genera report settimanale)
-
-- Analizza le attività nella coda per identificare quelle che rientrano nella settimana corrente (da lunedì a domenica)
-- Genera e visualizza un report riepilogativo che includa il conteggio delle attività (Completate , In corso, In ritardo)
-- Premi INVIO e torna al menù principale
-
-
-
-Case 7: (Ottieni l'attività con massima priorità)
-
-- Recupera l’attività con il maggior valore di importanza dalla coda (max-heap)
-- Visualizza i dettagli di tale attività
-- Premi INVIO e torna al menù principale
-
-
-
-Case 8: (Mostra notifiche delle attività in ritardo)
-
-- Stampa a schermo tutte le attività che risultano in ritardo
-- Premi INVIO e torna al menù principale
-
-
-
-Case 9: (Uscita dal programma)
-
-- Visualizza un messaggio d'uscita
-- Termina l'esecuzione del programma e libera la memoria allocata
-
-
-
-
-
-
---- FUNZIONI RELATIVE AL TESTING ---
-
-- test_aggiungi_attivita(void) -> void                Simula la creazione di un nuovo elemento di tipo Attivita, e verifica che i valori inizializzati corrispondano all'oracolo atteso
-- test_aggiorna_progresso(void) -> void               Simula l'aggiornamento del progresso di un’attività esistente, passando da un valore iniziale pari a 0 a un aggiornamento al 100%
-                                                      Imposta il relativo stato a COMPLETATA e registra la data di completamento
-
-- test_report_settimanale(void) -> void               Simula la generazione di un report settimanale, che raggruppa le attività per stato in base alla data corrente
-                                                      Verifica che il report legga correttamente i conteggi per le attività completate, in corso, o in ritardo
-
-
-
---- PSEUDOCODICE TEST_MAIN.C ---
-
-All'avvio:
-1. Il programma apre i file "test_input.txt", "test_oracle.txt" e "test_output.txt"
-2. In caso d'errore, visualizzi un messaggio che lo notifica e terminerà l'esecuzione del programma
-
-
-- Apertura del menù di testing:
-
-- Scelte disponibili nel menù (implementate tramite uno switch):
-
-1. Test (Aggiungi attività)
-2. Test (Aggiorna progresso)
-3. Test (Genera report settimanale)
-0. Esci dai test
-
-
-Case 1: (Test Aggiungi attività)
-
-- Carica il risultato del test su file
-- Visualizza esito test su terminale
-- Premi INVIO per tornare al menù principale
-
-Case 2: (Test Aggiorna Progresso): 
-
-- Carica il risultato del test su file
-- Visualizza esito test su terminale
-- Premi INVIO per tornare al menù principale
-
-Case 3: (Test Genera report settimanale)
-
-- Carica il risultato del test su file
-- Visualizza esito test su terminale
-- Premi INVIO per tornare al menù principale
-
-Case 0: (Uscita dal programma di testing)
-
-- Esci dall'programma di testing
+**Avviso⚠️**: Per conoscere i dettagli e le implementazioni, consultare le documentazioni e i file sorgente forniti nella repository.
