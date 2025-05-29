@@ -7,7 +7,7 @@ Il progetto **Gestione attività di studio** è un sistema sviluppato interament
 
 * **Gestione delle attività**: 
  1. Inserimento di nuove attività con raccolta dati quali descrizione, nome del corso, data di scadenza, tempo stimato, priorità e stato
- 2. Modifica dei dati di una attività esistente
+ 2. Modifica dei dati di un'attività esistente
  3. Eliminazione delle attività selezionate (In base alla descrizione)
 
 * **Monitoraggio e Aggiornamento del progresso**:
@@ -82,7 +82,7 @@ Il progetto è stato organizzato in moduli per mantenere il codice modulare e fa
 
 ## Utilizzo
 
-1. Copia il link del repository
+1. Copia il link della repository
 2. Compila il progetto con i makefile forniti
 3. Usufruisci del programma
 
