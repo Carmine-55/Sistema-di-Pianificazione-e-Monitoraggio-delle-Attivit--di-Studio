@@ -116,6 +116,8 @@ int inserisci(PCoda c, Attivita nuovaAttivita) {
 
     if (!c || c->num_elementi >= MAX_HEAP)
 
+    printf("ERRORE! NON PUOI AGGIUNGERE ALTRI ELEMENTI, IL MAX-HEAP E' PIENO...");
+
     return 0;
 
     c->num_elementi++;
