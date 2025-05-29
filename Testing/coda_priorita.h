@@ -337,4 +337,3 @@ Attivita* ottieni_attivita_puntatore(PCoda c, int indice);
 
 
 #endif
-
