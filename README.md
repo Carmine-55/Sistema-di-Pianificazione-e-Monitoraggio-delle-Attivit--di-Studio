@@ -7,7 +7,7 @@ Il progetto **Gestione attività di studio** è un sistema sviluppato interament
 
 * **Gestione delle attività**: 
  1. Inserimento di nuove attività con raccolta dati quali descrizione, nome del corso, data di scadenza, tempo stimato, priorità e stato
- 2. Modifica dei dati di una attività esistente
+ 2. Modifica dei dati di un'attività esistente
  3. Eliminazione delle attività selezionate (In base alla descrizione)
 
 * **Monitoraggio e Aggiornamento del progresso**:
@@ -74,15 +74,15 @@ Il progetto **Gestione attività di studio** è un sistema sviluppato interament
 
 Il progetto è stato organizzato in moduli per mantenere il codice modulare e facilmente manutenibile:
 
-* **item.h / item.c** Definizione della struttura 'Attivita' e degli enumeratori per 'Priorità' e 'Stato'
+* **attivita.h/.c** Definizione della struttura 'Attivita' e degli enumeratori per 'Priorità' e 'Stato'
 
-* **coda_priorita.h / coda_priorita.c** Implementazione della coda di priorità (max-heap) la quale gestisce l’ordinamento delle attività
+* **coda_priorita.h/.c** Implementazione della coda di priorità (max-heap) la quale gestisce l’ordinamento delle attività
 
-* **funzioni_file.h / funzioni_file.c** Funzioni per il salvataggio e il caricamento delle attività da file
+* **funzioni_file.h/.c** Funzioni per il salvataggio e il caricamento delle attività da file
 
 ## Utilizzo
 
-1. Copia il link del repository
+1. Copia il link della repository
 2. Compila il progetto con i makefile forniti
 3. Usufruisci del programma
 
