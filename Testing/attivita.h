@@ -1,5 +1,5 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef ATTIVITA_H
+#define ATTIVITA_H
 
 typedef enum {
     BASSA = 1,

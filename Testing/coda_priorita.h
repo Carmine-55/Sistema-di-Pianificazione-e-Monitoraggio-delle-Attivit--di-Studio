@@ -1,7 +1,7 @@
 #ifndef CODA_PRIORITA_H
 #define CODA_PRIORITA_H
 
-#include "item.h"
+#include "attivita.h"
 
 typedef struct CodaPriorita CodaPriorita;
 typedef CodaPriorita* PCoda;

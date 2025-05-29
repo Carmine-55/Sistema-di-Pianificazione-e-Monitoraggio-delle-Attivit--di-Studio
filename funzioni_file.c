@@ -3,7 +3,7 @@
 #include <string.h>
 #include "funzioni_file.h"
 #include "coda_priorita.h"
-#include "item.h"
+#include "attivita.h"
 
 
 /* FUNZIONI RELATIVE AI FILE */

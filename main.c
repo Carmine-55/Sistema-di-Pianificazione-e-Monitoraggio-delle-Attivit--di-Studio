@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "item.h"
+#include "attivita.h"
 #include "coda_priorita.h"
 #include "funzioni_file.h"
 
